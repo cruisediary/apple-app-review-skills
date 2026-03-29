@@ -1,0 +1,6 @@
+# Claude Code session artifacts
+.claude/
+
+# Swift Package Manager
+examples/swift/.build/
+examples/swift/.swiftpm/
