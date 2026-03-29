@@ -87,5 +87,17 @@ Collect all findings from Phase 2 and build the prioritised findings list below.
 - Skip Phase 1 if `shared_context` is provided by orchestrating agent.
 - Works on Swift, Objective-C, React Native, Flutter projects.
 
+## Quick Commands
+
+Run these in your project root to check manually:
+
+```bash
+# Check for privacy policy URL in code
+!grep -rn "privacyPolicy\|privacy_policy\|privacy-policy\|privacyURL" . --include="*.swift"
+
+# Check for http:// (insecure) links
+!grep -rn "http://" . --include="*.swift" | grep -i "privacy\|support\|terms"
+```
+
 ## Swift Anti-Pattern Reference
 `examples/swift/PrivacyPatterns.swift`
