@@ -1,0 +1,10 @@
+# GitHub Linguist overrides
+# Force Swift example files to count toward language statistics
+
+examples/swift/*.swift linguist-detectable=true
+examples/swift/*.swift linguist-documentation=false
+examples/swift/*.swift linguist-vendored=false
+
+# Suppress Shell/Markdown from dominating language stats
+install.sh linguist-detectable=false
+*.md linguist-documentation=true
