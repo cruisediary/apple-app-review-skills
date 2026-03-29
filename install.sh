@@ -84,6 +84,13 @@ for agent_file in "$REPO_DIR/agents"/*.md; do
   AGENTS_INSTALLED=$((AGENTS_INSTALLED + 1))
 done
 
+# Install commands
+mkdir -p "$CLAUDE_DIR/commands"
+for cmd_file in "$REPO_DIR/commands"/*.md; do
+  [ -f "$cmd_file" ] || continue
+  install_file "$cmd_file" "$CLAUDE_DIR/commands/$(basename "$cmd_file")"
+done
+
 echo ""
 echo "======================================="
 echo -e "${GREEN}Done!${NC}"
