@@ -64,8 +64,8 @@ bash install.sh
 ~/.claude/skills/layout/            4 skills
 ~/.claude/skills/permissions/       3 skills
 ~/.claude/skills/ugc/               2 skills
-~/.claude/skills/privacy/           5 skills
-~/.claude/skills/quality/           3 skills
+~/.claude/skills/privacy/           6 skills
+~/.claude/skills/quality/           9 skills
 ~/.claude/skills/business/          4 skills
 ~/.claude/skills/metadata/          4 skills
 ~/.claude/agents/                   5 agents
@@ -83,7 +83,7 @@ Open any iOS/macOS project in Claude Code, then run:
 /appstore-full-audit
 ```
 
-Runs all 25 skills and produces a prioritized rejection risk report.
+Runs all 31 skills and produces a prioritized rejection risk report.
 
 ### Targeted audits
 
@@ -142,6 +142,7 @@ Skills are atomic and composable:
 | `att-framework-audit` | `ATTrackingManager.requestTrackingAuthorization` before any tracking | Tracking without ATT prompt |
 | `account-deletion-check` | In-app account deletion flow (not just deactivation), required since June 30, 2022 | Settings → Account → only "Deactivate" found, no delete option |
 | `data-minimization-audit` | Only required data collected, out-of-process pickers used where possible | Requesting full Contacts access when only email needed |
+| `ai-data-disclosure` | Third-party AI SDK/API (OpenAI, Gemini, Anthropic) usage with no in-app consent — Guideline 5.1.2(i) | Sending user messages to OpenAI without disclosure modal |
 
 ### Quality — `skills/quality/`
 
@@ -150,6 +151,11 @@ Skills are atomic and composable:
 | `app-completeness-check` | No Lorem Ipsum, placeholder images, broken buttons, "Coming Soon" screens | "Lorem ipsum" in body text, greyed-out unimplemented tabs |
 | `crash-risk-audit` | Force unwrap `!`, force cast `as!`, unsafe array access, main thread violations | `let x = value!` crash on nil, `tableView.reloadData()` off main thread |
 | `review-readiness-check` | Demo account credentials in review notes, backend reachable, no "beta" in version name | App requires login with no demo account, backend returns 503 |
+| `sdk-version-check` | Deprecated/removed APIs (`UIWebView`), outdated deployment target, missing `@available` guards | ITMS-90809 UIWebView rejection, crash on minimum-OS device — Guideline 2.5.10 |
+| `push-notification-audit` | Push permission at launch, marketing content in notifications, missing delegate — Guideline 4.5.5 | Push requested before any user context, promotional push without opt-in |
+| `review-request-audit` | `SKStoreReviewController` in button actions, review gating, direct write-review URL — Guideline 5.6.1 | "Rate Us" button calling requestReview() directly, satisfaction gate |
+| `private-api-audit` | `dlopen`, `NSClassFromString` with private classes, underscore-prefixed methods, swizzling — Guideline 2.5.1 | ITMS-90338 private API binary rejection |
+| `background-execution-audit` | Silent audio keep-alive, location misused for non-navigation, VoIP mode without CallKit — Guideline 2.5.3 | Silent audio looping to prevent suspension |
 
 ### Business & IAP — `skills/business/`
 
@@ -181,7 +187,7 @@ The [`examples/swift/`](examples/swift/) directory contains annotated Swift code
 
 | Agent | Skills Used | Use When |
 |-------|-------------|----------|
-| `appstore-full-audit` | All 25 skills | Final pre-submission check |
+| `appstore-full-audit` | All 31 skills | Final pre-submission check |
 | `ipad-layout-agent` | layout/* | iPad layout complaints from TestFlight |
 | `ugc-safety-agent` | ugc/*, metadata/age-rating-accuracy | Building social/community features |
 | `permission-audit-agent` | permissions/* | Adding new permission requests |

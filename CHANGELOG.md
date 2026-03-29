@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- 25 skills across 7 categories: layout, permissions, ugc, privacy, quality, business, metadata
+- 31 skills across 7 categories: layout, permissions, ugc, privacy, quality, business, metadata
 - 5 agents: appstore-full-audit, ipad-layout-agent, ugc-safety-agent, permission-audit-agent, privacy-audit-agent
 - Swift anti-pattern examples in examples/swift/
 - One-line `install.sh` installer

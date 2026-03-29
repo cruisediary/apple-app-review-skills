@@ -1,7 +1,7 @@
 # App Store Full Audit Agent
 
 ## Purpose
-Run all 25 App Store review skills in a single pass, collect shared project context once, and produce a prioritized rejection risk report saved to `docs/appstore-audit/YYYY-MM-DD-audit.md`.
+Run all 31 App Store review skills in a single pass, collect shared project context once, and produce a prioritized rejection risk report saved to `docs/appstore-audit/YYYY-MM-DD-audit.md`.
 
 ## Skills Used
 - `skills/layout/ipad-layout-audit.md` — iPad size class, split view, text truncation
@@ -18,9 +18,15 @@ Run all 25 App Store review skills in a single pass, collect shared project cont
 - `skills/privacy/att-framework-audit.md` — ATT before analytics SDKs
 - `skills/privacy/account-deletion-check.md` — True deletion vs deactivation-only
 - `skills/privacy/data-minimization-audit.md` — Minimal data access, out-of-process pickers
+- `skills/privacy/ai-data-disclosure.md` — Third-party AI SDK usage without user consent
 - `skills/quality/app-completeness-check.md` — Lorem ipsum, staging URLs, broken buttons
 - `skills/quality/crash-risk-audit.md` — Force unwrap, force cast, background thread UI
 - `skills/quality/review-readiness-check.md` — Version name, demo account, backend reachable
+- `skills/quality/sdk-version-check.md` — Deprecated APIs, UIWebView, deployment target
+- `skills/quality/push-notification-audit.md` — Push permission timing, marketing push, broken delegate
+- `skills/quality/review-request-audit.md` — SKStoreReviewController abuse, review gating
+- `skills/quality/private-api-audit.md` — dlopen, NSClassFromString private classes, method swizzling
+- `skills/quality/background-execution-audit.md` — Silent audio abuse, location background misuse, VoIP mode
 - `skills/business/iap-compliance.md` — StoreKit usage, no IAP bypass
 - `skills/business/subscription-disclosure.md` — Auto-renewal, trial, price prominence
 - `skills/business/loot-box-disclosure.md` — Odds table for randomized rewards
@@ -49,7 +55,7 @@ Collect all project files once so all 25 skills share the same context without r
 
 ## Phase 2: Audit — Run All 25 Skills (Read-Only, No File Edits)
 
-Run all 25 skills using `shared_context`. For each skill, perform its Phase 2 checks directly (skip Phase 1 context collection since data is already gathered).
+Run all 31 skills using `shared_context`. For each skill, perform its Phase 2 checks directly (skip Phase 1 context collection since data is already gathered).
 
 **Layout (4 skills)**
 - Check all .swift files for hardcoded widths (375, 390, 414), `edgesIgnoringSafeArea(.all)` on content views, `UIFont.systemFont(ofSize:)` without `UIFontMetrics`, fixed `.frame(height:)` on text, missing iPad `userInterfaceIdiom` handling
@@ -66,17 +72,24 @@ Run all 25 skills using `shared_context`. For each skill, perform its Phase 2 ch
 - Use `Grep` for report/block action patterns near those views
 - Check onboarding/signup flow for EULA or Terms acceptance
 
-**Privacy (5 skills)**
+**Privacy (6 skills)**
 - Search for `privacyPolicyURL`, `privacy`, `policy` links in views
 - Check `PrivacyInfo.xcprivacy` for required API reason codes (CA92.1, DDA9.1, 3EC4.1, 35F9.1)
 - Use `Grep` for `ATTrackingManager` and analytics SDK imports
 - Use `Grep` for "Delete Account" vs "Deactivate" in settings views
 - Check for full `CNContactStore` / `PHPhotoLibrary` access vs pickers
+- Use `Grep` for OpenAI/Gemini/Anthropic SDK imports and API endpoints — if found, verify consent modal exists before API call
 
-**Quality (3 skills)**
+**Quality (9 skills)**
 - Use `Grep` for `Lorem ipsum`, `Coming Soon`, `TODO`, staging/localhost URLs
 - Use `Grep` for `!` force unwrap, `as!` force cast, `try!`, `DispatchQueue.main` absence in UI updates from background
 - Check bundle version — flag if `CFBundleShortVersionString` starts with `0.` or contains "beta"/"alpha"
+- Use `Grep` for `UIWebView` (ITMS-90809), `UIAlertView`, `UIActionSheet` — deprecated/removed APIs
+- Use `Grep` for `requestAuthorization` in AppDelegate/SceneDelegate — push permission at launch
+- Use `Grep` for `requestReview` in Button actions or satisfaction gate patterns
+- Use `Grep` for `dlopen`, `NSClassFromString` with `_UI`/`_NS` prefix, `method_exchangeImplementations`
+- Read Info.plist `UIBackgroundModes` — check for `audio`/`voip`/`location` with silent abuse patterns
+- Check `IPHONEOS_DEPLOYMENT_TARGET` in pbxproj — flag if 13 or below
 
 **Business (4 skills)**
 - Use `Grep` for Stripe, PayPal, Braintree, WebView payment patterns
