@@ -82,5 +82,17 @@ Collect all findings from Phase 2 and build the prioritised findings list below.
 - Skip Phase 1 if `shared_context` is provided by orchestrating agent.
 - Works on Swift, Objective-C, React Native, Flutter projects.
 
+## Quick Commands
+
+Run these in your project root to check manually:
+
+```bash
+# Check for permissions requested at launch
+!grep -rn "requestWhenInUseAuthorization\|requestAlwaysAuthorization" . --include="*.swift" | grep -i "didFinishLaunch\|AppDelegate\|SceneDelegate"
+
+# Find all permission request call sites
+!grep -rn "requestAuthorization\|requestAccess\|requestTrackingAuthorization" . --include="*.swift"
+```
+
 ## Swift Anti-Pattern Reference
 `examples/swift/PermissionPatterns.swift`
