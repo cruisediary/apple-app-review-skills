@@ -47,11 +47,24 @@ Personal data must be transmitted over HTTPS. Apps that store sensitive data (pa
 
 ### 5.1.2 Data Use and Sharing
 
-#### 5.1.2(i) Tracking and ATT
+#### 5.1.2(i) Tracking, ATT, and Third-Party AI Data Sharing
 
 > "Apps cannot use or transmit data about a user's device without their consent."
 
-Apps that perform cross-app or cross-site tracking **must** use Apple's App Tracking Transparency (ATT) framework and request permission via `ATTrackingManager.requestTrackingAuthorization` before accessing the IDFA or performing any tracking. Using device fingerprinting or other workarounds to track users without ATT authorization is prohibited.
+**App Tracking Transparency (ATT):**
+Apps that perform cross-app or cross-site tracking **must** use Apple's App Tracking Transparency framework and request permission via `ATTrackingManager.requestTrackingAuthorization` before accessing the IDFA or performing any tracking. Using device fingerprinting or other workarounds to track users without ATT authorization is prohibited.
+
+**Third-Party AI Data Sharing (enforced from 2023; Guideline 1.6.1):**
+Apps that transmit user data to third-party AI services (OpenAI, Google Gemini, Anthropic, and similar) must:
+
+1. Disclose the AI data sharing explicitly within the app — before the first API call occurs
+2. Obtain explicit user consent (not just a generic "we share data with partners" clause in the privacy policy)
+3. Name the specific AI provider(s) in the privacy policy
+4. For sensitive data categories (health, messages, location, financial), require a separate, category-specific opt-in
+
+A generic privacy policy mentioning "third-party services" is insufficient. The disclosure must be specific, actionable, and presented in-app before data is sent.
+
+On-device ML processing using Core ML, Create ML, or Apple's on-device frameworks (Vision, NaturalLanguage, Sound Analysis) does **not** require this disclosure — only external API calls trigger the requirement.
 
 ### 5.1.5 Location Services
 
@@ -60,6 +73,25 @@ Location data may only be collected when directly relevant to the app's core fea
 > "Don't use location data for anything other than providing the requested service."
 
 Apps must notify users and obtain consent before collecting location data. Using location in the background when the user has only granted foreground access is a violation.
+
+---
+
+## 5.6 App Store Reviews and Ratings
+
+### 5.6.1 Manipulating Reviews
+
+> "You may not use mechanisms to artificially inflate or manipulate your app's reviews and ratings."
+
+Prohibited practices:
+
+- **Review gating:** Asking users if they are satisfied, then only showing the `SKStoreReviewController` prompt to those who respond positively — while routing unsatisfied users to a feedback form instead. All users must have equal access to the system review prompt.
+- **Button-triggered prompts:** Calling `SKStoreReviewController.requestReview()` directly from a "Rate Us" button tap. Review requests must be triggered at appropriate moments in the user journey, not as a direct response to user action.
+- **Incentivized reviews:** Offering rewards, unlocks, or benefits in exchange for leaving a review.
+- **Direct write-review deep links:** Using `itms-apps://...?action=write-review` bypasses Apple's system controls and is treated as manipulation.
+
+**Apple's system cap:** `SKStoreReviewController.requestReview()` is silently rate-limited to 3 prompts per 365-day period per user. Apps cannot override this cap. Calls beyond the limit are ignored.
+
+**Correct usage pattern:** Trigger `requestReview()` programmatically at natural positive moments — after completing a task, after a meaningful session milestone, or after a positive user-initiated event. Implement a local rate-limiting guard (e.g., minimum 120 days between prompts) in addition to Apple's system cap.
 
 ---
 

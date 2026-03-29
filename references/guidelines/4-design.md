@@ -28,6 +28,26 @@ Apple actively combats App Store spam:
 
 Repeated submissions of near-identical apps from the same developer will result in rejection and may trigger account-level action.
 
+## 4.5 Apple Sites and Services
+
+### 4.5.5 Push Notifications
+
+> "Push notifications must not be used for advertising, promotions, or direct marketing purposes."
+
+Push notifications are a trust-sensitive feature. Misuse is one of the most common post-approval rejection and removal triggers:
+
+**Prohibited uses:**
+- Sending promotional or advertising content (sales, discounts, offers) without a separate explicit opt-in for marketing communications
+- Displaying ads inside notification payloads
+- Requesting push permission before the user has any context for why notifications would be valuable
+
+**Required implementation:**
+- Push permission must be requested in context — at the moment when a notification-driven feature is first encountered, not at app launch
+- Apps must implement `UNUserNotificationCenterDelegate` to handle notification taps — unhandled taps signal a broken implementation
+- The `aps-environment` entitlement must be present in the app's `.entitlements` file
+
+**Recommended pattern:** Show a pre-permission screen explaining what notifications will be used for (order updates, reminders, etc.) before triggering the system permission dialog. This demonstrates context to reviewers and improves user opt-in rates.
+
 ## 4.8 Sign in with Apple
 
 If an app offers third-party login (e.g., Sign in with Facebook, Sign in with Google, Twitter login), it **must** also offer Sign in with Apple as an equivalent option.

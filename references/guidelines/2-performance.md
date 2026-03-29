@@ -59,3 +59,48 @@ Apps should run on iPad natively whenever possible. If an iPhone-only app does n
 ## 2.5 Software Requirements
 
 Apps must be built with the current public SDK and must target a supported OS version. Apps cannot use private APIs, deprecated frameworks, or APIs in ways inconsistent with their intended purpose.
+
+### 2.5.1 Public APIs Only
+
+> "Apps may only use public APIs and must not use or call any private APIs."
+
+Apps must use only publicly documented APIs and frameworks included in the current iOS/macOS SDK. Accessing private classes (e.g., `_UIBackdropView`), loading private frameworks via `dlopen`, calling underscore-prefixed internal methods, or using `NSClassFromString` to access internal Apple classes are all prohibited.
+
+Apple's automated binary analyzer (ITMS-90338) scans submitted binaries for private symbol references before human review. Detection results in an immediate automated rejection — no human reviewer involvement. Third-party SDKs that use private APIs also trigger rejection; the developer is responsible for all code in the bundle.
+
+**Common violation patterns:**
+- `dlopen` loading `/System/Library/PrivateFrameworks/...`
+- `NSClassFromString("_UIBackdropView")` or other `_`-prefixed class names
+- `performSelector` with `@selector(_privateMethod)`
+- Method swizzling on Apple system classes (UIViewController, UIApplication)
+
+### 2.5.3 Background Execution
+
+> "Apps that run in the background should provide meaningful value to users in that state."
+
+Each background mode declared in `UIBackgroundModes` must be used only for its stated purpose:
+
+| Background Mode | Permitted Use | Common Abuse |
+|----------------|--------------|-------------|
+| `audio` | Playing audible content to user | Silent audio loop to prevent suspension |
+| `location` | Navigation, geo-fencing, delivery tracking | Step counting (use CMPedometer instead) |
+| `voip` | Telephone-like calling via CallKit | Persistent socket connections for chat |
+| `fetch` | Lightweight data refresh | Excessive background processing |
+| `processing` | Long-running background tasks via BGProcessingTask | Bypassing foreground restrictions |
+
+Playing a silent audio file in an infinite loop to keep the app alive in the background is an explicitly documented rejection reason. Use `BGTaskScheduler` (BGAppRefreshTask / BGProcessingTask) for legitimate periodic background work.
+
+### 2.5.10 Current SDK
+
+> "Apps must be built with the current SDK."
+
+Apple sets a minimum SDK requirement for new submissions and updates, typically enforced each spring following WWDC. Submissions built against an older SDK receive an automated ITMS-90725 rejection.
+
+**Key enforcement history:**
+- Apps must be built with the Xcode version targeting the latest stable iOS SDK
+- Removal of UIWebView (ITMS-90809) enforced since April 2020 — any binary referencing `UIWebView` is rejected at upload
+- Deployment target floors are raised annually — very old minimums (iOS 12 and below) are increasingly flagged
+
+**`IPHONEOS_DEPLOYMENT_TARGET` guidance:**
+- Must not be lower than the current Apple minimum (check Apple Developer News for the active floor)
+- Must be consistent with actual API usage — calling iOS 15+ APIs on an iOS 13 deployment target without `@available` guards causes crashes on reviewer devices
