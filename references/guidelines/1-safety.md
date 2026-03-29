@@ -31,3 +31,24 @@ Apps offering medical advice or health data must be from licensed medical provid
 ## 1.5 Developer Information
 
 Apps must provide accurate contact information and not mislead users about the developer's identity or qualifications.
+
+## 1.6 Data Security
+
+Apps must implement appropriate security measures to protect user data:
+
+> "Apps should implement appropriate security measures to ensure proper handling of user information collected pursuant to your Privacy Policy and applicable law."
+
+### 1.6.1 Third-Party AI Data Sharing
+
+Apps that share user data with third-party AI systems must disclose this and obtain explicit user permission:
+
+> "Apps that use third-party AI services must disclose this to users and get their permission before sharing any data with such services."
+
+Apps integrating external AI APIs (OpenAI, Google Gemini, Anthropic, etc.) must:
+
+1. Present an explicit in-app disclosure before the first API call — naming the AI provider and describing what data is sent
+2. Obtain affirmative user consent (not buried in a generic privacy policy)
+3. Disclose the AI data sharing specifically by name in the privacy policy
+4. For sensitive data categories (health, messages, location), require a separate opt-in
+
+This requirement was introduced as part of Apple's expanded AI governance posture in 2023–2024 and is enforced under both 1.6.1 and 5.1.2(i). On-device processing via Core ML or Apple's on-device frameworks does not trigger this requirement.

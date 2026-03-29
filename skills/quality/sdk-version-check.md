@@ -19,7 +19,7 @@ Detects apps built with outdated Xcode SDKs or targeting deprecated iOS versions
   **Root cause:** When `IPHONEOS_DEPLOYMENT_TARGET` is set lower than the APIs used, the app crashes at runtime on devices running the declared minimum OS — reviewers test on devices at or near the minimum supported version
 
 - **Case:** App used a deprecated `UIWebView` after Apple removed it from the SDK — rejected at upload with ITMS-90809
-  **Source:** Apple Developer News (UIWebView removal, March 2020)
+  **Source:** Apple Developer News (UIWebView removal, April 2020)
   **Root cause:** APIs removed from the SDK cause binary validation failures at upload time — App Store Connect's automated checks reject the binary before human review begins
 
 ## Trigger
