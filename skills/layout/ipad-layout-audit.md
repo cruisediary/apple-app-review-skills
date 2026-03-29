@@ -92,5 +92,20 @@ Collect all findings from Phase 2 and build the prioritised findings list below.
 - Skip Phase 1 if `shared_context` is provided by orchestrating agent.
 - Works on Swift, Objective-C, React Native, Flutter projects.
 
+## Quick Commands
+
+Run these in your project root to check manually:
+
+```bash
+# Find hardcoded iPhone widths (375=iPhone SE/8, 390=iPhone 14)
+!grep -rn "375\|390\|frame\.width" . --include="*.swift" | grep -v "//\|Test"
+
+# Check iPad orientation support in Info.plist
+!find . -name "Info.plist" -not -path "*/Pods/*" | head -1 | xargs plutil -convert json -o - | python3 -c "import sys,json; d=json.load(sys.stdin); print('iPad orientations:', d.get('UISupportedInterfaceOrientations~ipad', 'MISSING'))"
+
+# Check size class handling
+!grep -rn "horizontalSizeClass\|verticalSizeClass\|userInterfaceIdiom" . --include="*.swift"
+```
+
 ## Swift Anti-Pattern Reference
 `examples/swift/LayoutPatterns.swift`

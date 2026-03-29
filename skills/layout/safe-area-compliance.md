@@ -88,5 +88,17 @@ Collect all findings from Phase 2 and build the prioritised findings list below.
 - Skip Phase 1 if `shared_context` is provided by orchestrating agent.
 - Works on Swift, Objective-C, React Native, Flutter projects.
 
+## Quick Commands
+
+Run these in your project root to check manually:
+
+```bash
+# Check for unsafe safe area overrides
+!grep -rn "edgesIgnoringSafeArea\|ignoresSafeArea\|UIEdgeInsets\.zero" . --include="*.swift"
+
+# Check for hardcoded inset values (44=nav bar, 34=home indicator)
+!grep -rn "top:.*44\|bottom:.*34\|bottom:.*83" . --include="*.swift"
+```
+
 ## Swift Anti-Pattern Reference
 `examples/swift/LayoutPatterns.swift`

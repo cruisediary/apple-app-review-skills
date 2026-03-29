@@ -80,5 +80,17 @@ Collect all findings from Phase 2 and build the prioritised findings list below.
 - Skip Phase 1 if `shared_context` is provided by orchestrating agent.
 - Works on Swift, Objective-C, React Native, Flutter projects.
 
+## Quick Commands
+
+Run these in your project root to check manually:
+
+```bash
+# Check iPad interface orientations
+!find . -name "Info.plist" -not -path "*/Pods/*" | head -1 | xargs plutil -convert json -o - | python3 -c "import sys,json; d=json.load(sys.stdin); print('iPhone:', d.get('UISupportedInterfaceOrientations',[])); print('iPad:', d.get('UISupportedInterfaceOrientations~ipad','MISSING'))"
+
+# Find orientation locks in code
+!grep -rn "supportedInterfaceOrientations\|lockOrientation\|\.portrait\b" . --include="*.swift"
+```
+
 ## Swift Anti-Pattern Reference
 `examples/swift/LayoutPatterns.swift`
