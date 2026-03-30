@@ -1,3 +1,9 @@
+---
+name: sdk-version-check
+description: >-
+  Detects apps built with outdated Xcode SDKs or deprecated iOS deployment targets, enforcing Guideline 2.5.10 which requires apps to be built with the current SDK from Xcode.
+---
+
 # Skill: SDK Version Check
 <!-- SEO: current SDK Xcode IPHONEOS_DEPLOYMENT_TARGET deprecated API outdated build tools Guideline 2.5.10 iOS App Store rejection -->
 

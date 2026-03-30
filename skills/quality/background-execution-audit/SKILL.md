@@ -1,3 +1,9 @@
+---
+name: background-execution-audit
+description: >-
+  Detects apps that abuse iOS background execution modes — particularly silent audio used to keep the app alive, location background mode used for non-navigation purposes, and background task implementations that do excessive work — enforcing Guideline 2.5.3.
+---
+
 # Skill: Background Execution Audit
 <!-- SEO: background mode silent audio location abuse BGTaskScheduler background fetch voip Guideline 2.5.3 iOS App Store rejection -->
 

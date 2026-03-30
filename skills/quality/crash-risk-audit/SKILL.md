@@ -1,3 +1,9 @@
+---
+name: crash-risk-audit
+description: >-
+  Detects force unwraps, force casts, force try, and other crash-prone Swift patterns that can cause unrecoverable crashes during App Store review, violating Guideline 2.1.
+---
+
 # Skill: Crash Risk Audit
 <!-- SEO: force unwrap crash force cast try! fatalError EXC_BAD_INSTRUCTION nil crash iOS App Store rejection Guideline 2.1 -->
 

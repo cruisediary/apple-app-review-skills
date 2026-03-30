@@ -1,3 +1,9 @@
+---
+name: review-request-audit
+description: >-
+  Detects improper use of SKStoreReviewController.requestReview() that violates Guideline 5.6.1 — including prompts triggered by button taps, excessive frequency, or satisfaction gating.
+---
+
 # Skill: Review Request Audit
 <!-- SEO: SKStoreReviewController requestReview manipulating reviews App Store rating prompt incentivized review Guideline 5.6.1 iOS App Store rejection -->
 

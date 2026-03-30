@@ -1,3 +1,9 @@
+---
+name: private-api-audit
+description: >-
+  Detects usage of private Apple APIs, undocumented frameworks, and runtime introspection patterns that bypass the public SDK, enforcing Guideline 2.5.1. Private API usage causes automated binary rejection at upload.
+---
+
 # Skill: Private API Audit
 <!-- SEO: private API dlopen NSClassFromString undocumented framework selector binary rejection Guideline 2.5.1 iOS App Store rejection -->
 

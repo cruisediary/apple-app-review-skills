@@ -1,3 +1,9 @@
+---
+name: push-notification-audit
+description: >-
+  Detects push notification implementations that violate Guideline 4.5.5 — including requesting push permission at launch, using push for unsolicited marketing, and broken notification handling.
+---
+
 # Skill: Push Notification Audit
 <!-- SEO: push notification UNUserNotificationCenter marketing spam promotional push permission abuse Guideline 4.5.5 iOS App Store rejection -->
 

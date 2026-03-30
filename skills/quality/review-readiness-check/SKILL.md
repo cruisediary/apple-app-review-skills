@@ -1,3 +1,9 @@
+---
+name: review-readiness-check
+description: >-
+  Detects review-blocking configuration issues including sub-1.0 version numbers, beta in app name, staging endpoints, and missing demo credentials that prevent reviewers from evaluating the app, violating Guidelines 2.1 and 2.3.
+---
+
 # Skill: Review Readiness Check
 <!-- SEO: version number beta alpha CFBundleDisplayName staging URL demo credentials review notes login required iOS App Store submission readiness -->
 

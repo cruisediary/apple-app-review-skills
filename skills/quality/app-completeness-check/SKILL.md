@@ -1,3 +1,9 @@
+---
+name: app-completeness-check
+description: >-
+  Detects placeholder content, stub UI, hardcoded test credentials, and non-production endpoints that signal an incomplete app to reviewers under Guideline 2.1.
+---
+
 # Skill: App Completeness Check
 <!-- SEO: placeholder content Lorem ipsum Coming Soon hardcoded credentials staging URL incomplete app Guideline 2.1 iOS App Store rejection -->
 
