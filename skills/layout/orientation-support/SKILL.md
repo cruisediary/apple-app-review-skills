@@ -1,3 +1,8 @@
+---
+name: orientation-support
+description: "Detects missing iPad orientation keys, portrait-only orientation locks, and forced-rotation patterns that cause layout failures when an iPad reviewer rotates their device, violating guideline 2.4.1."
+---
+
 # Skill: Orientation Support
 <!-- SEO: orientation support iPad landscape portrait UISupportedInterfaceOrientations lockOrientation rotation guideline 2.4.1 -->
 

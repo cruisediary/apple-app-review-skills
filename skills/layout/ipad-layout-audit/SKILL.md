@@ -1,3 +1,8 @@
+---
+name: ipad-layout-audit
+description: "Detects hardcoded iPhone-sized widths, missing iPad orientation keys, and absent size-class adaptation that cause layout failures on iPad reviewers' devices under guidelines 2.1 and 2.4.1."
+---
+
 # Skill: iPad Layout Audit
 <!-- SEO: iPad layout compliance audit fixed widths adaptive constraints UIStackView SwiftUI guideline 2.1 2.4.1 -->
 

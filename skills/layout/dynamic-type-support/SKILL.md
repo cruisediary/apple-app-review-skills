@@ -1,3 +1,8 @@
+---
+name: dynamic-type-support
+description: "Detects fixed font sizes, fixed-height text containers, and Dynamic Type suppression patterns that prevent text from scaling with the user's preferred reading size, violating Apple's HIG Typography guidelines."
+---
+
 # Skill: Dynamic Type Support
 <!-- SEO: Dynamic Type accessibility font scaling UIFontMetrics fixed font size text clipping HIG typography iOS -->
 

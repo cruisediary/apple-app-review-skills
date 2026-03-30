@@ -1,3 +1,8 @@
+---
+name: safe-area-compliance
+description: "Detects unsafe safe-area overrides and hardcoded inset values that hide content behind the Dynamic Island, notch, or home indicator, violating Apple's Human Interface Guidelines for adaptive layout."
+---
+
 # Skill: Safe Area Compliance
 <!-- SEO: safe area insets Dynamic Island home indicator notch UIKit SwiftUI ignoresSafeArea edgesIgnoringSafeArea HIG adaptive layout -->
 
