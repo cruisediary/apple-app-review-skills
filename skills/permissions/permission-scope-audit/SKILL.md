@@ -1,3 +1,8 @@
+---
+name: permission-scope-audit
+description: "Detects over-broad permission requests where a narrower permission or privacy-preserving alternative API is sufficient, violating Guideline 5.1.1(iii) data minimization requirements."
+---
+
 # Skill: Permission Scope Audit
 <!-- SEO: over-broad permission always location full photo library contacts data minimization scope iOS App Store rejection -->
 

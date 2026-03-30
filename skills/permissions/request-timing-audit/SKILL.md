@@ -1,3 +1,8 @@
+---
+name: request-timing-audit
+description: "Detects permission requests triggered at app launch or before meaningful user interaction, which violates Guideline 5.1.1(ii) requiring permissions to be requested only at the moment of need with contextual explanation."
+---
+
 # Skill: Request Timing Audit
 <!-- SEO: permission request timing App Launch AppDelegate viewDidLoad location camera tracking prompt too early iOS rejection -->
 

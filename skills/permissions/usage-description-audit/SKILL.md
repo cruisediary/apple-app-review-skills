@@ -1,3 +1,8 @@
+---
+name: usage-description-audit
+description: "Detects missing or insufficiently descriptive NS*UsageDescription keys in Info.plist that cause guaranteed App Store rejection under Guideline 5.1.1(ii)."
+---
+
 # Skill: Usage Description Audit
 <!-- SEO: NSUsageDescription missing Info.plist permission strings privacy camera microphone location contacts photos tracking FaceID App Store rejection -->
 
