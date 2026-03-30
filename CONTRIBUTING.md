@@ -22,6 +22,31 @@ This project follows the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.
 
 ---
 
+## Skill Structure (agentskills.io spec)
+
+This project follows the [agentskills.io specification](https://agentskills.io/specification). Each skill is a **directory** (not a flat file):
+
+```
+skills/{category}/{skill-name}/
+├── SKILL.md          # Required — YAML frontmatter + instructions
+├── references/       # Optional — guideline docs, sources
+└── assets/           # Optional — templates, resources
+```
+
+**SKILL.md frontmatter requirements:**
+- `name` — must match the parent directory name exactly (lowercase, hyphens only)
+- `description` — one sentence describing what the skill checks and when to use it
+
+Example:
+```yaml
+---
+name: sdk-version-check
+description: Detects apps built with outdated Xcode SDKs or deprecated iOS deployment targets that will be rejected under Guideline 2.5.10.
+---
+```
+
+---
+
 ## How to Contribute
 
 1. Fork the repository

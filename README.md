@@ -6,6 +6,7 @@
 [![Swift](https://img.shields.io/badge/Swift-5.9%2B-orange.svg)](https://swift.org)
 [![Platform](https://img.shields.io/badge/iOS%20%7C%20macOS%20%7C%20tvOS%20%7C%20watchOS-blue.svg)](https://developer.apple.com)
 [![Guidelines](https://img.shields.io/badge/App%20Store%20Review%20Guidelines-2025-informational)](https://developer.apple.com/app-store/review/guidelines/)
+[![agentskills](https://img.shields.io/badge/agentskills.io-compatible-blueviolet)](https://agentskills.io/specification)
 
 ---
 
@@ -238,6 +239,12 @@ Skills in this project are derived from:
 - [Apple Developer News — Account Deletion Requirement](https://developer.apple.com/news/?id=12m75xbj)
 - [Apple Developer Documentation — PrivacyInfo.xcprivacy](https://developer.apple.com/documentation/bundleresources/privacy-manifest-files)
 - Stack Overflow, GitHub Issues (OneSignal, Urban Airship, React Native, Expo)
+
+---
+
+## Specification
+
+Skills follow the [agentskills.io specification](https://agentskills.io/specification) ([github.com/agentskills/agentskills](https://github.com/agentskills/agentskills)) — each skill is a directory containing a `SKILL.md` file with YAML frontmatter.
 
 ---
 
