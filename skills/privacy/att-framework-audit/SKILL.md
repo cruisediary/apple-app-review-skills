@@ -1,3 +1,9 @@
+---
+name: att-framework-audit
+description: >-
+  Detects analytics or tracking SDKs present without the required App Tracking Transparency prompt, enforcing Guideline 5.1.2(i) which requires user consent before any cross-app or cross-site tracking.
+---
+
 # Skill: ATT Framework Audit
 <!-- SEO: ATTrackingManager AppTrackingTransparency IDFA Firebase analytics tracking consent NSUserTrackingUsageDescription Guideline 5.1.2 iOS rejection -->
 

@@ -1,3 +1,9 @@
+---
+name: ai-data-disclosure
+description: >-
+  Detects apps that send user data to third-party AI systems without explicit in-app consent and disclosure, enforcing Guidelines 1.6.1 and 5.1.2(i).
+---
+
 # Skill: AI Data Disclosure
 <!-- SEO: third-party AI ChatGPT OpenAI Gemini Anthropic data sharing consent disclosure privacy 5.1.2(i) 1.6.1 iOS App Store rejection -->
 

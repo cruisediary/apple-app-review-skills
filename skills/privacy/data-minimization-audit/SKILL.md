@@ -1,3 +1,9 @@
+---
+name: data-minimization-audit
+description: >-
+  Detects data collection patterns that exceed what is necessary for the app's stated functionality, enforcing Guideline 5.1.1(iii) data minimization requirements.
+---
+
 # Skill: Data Minimization Audit
 <!-- SEO: data minimization PHPickerViewController full photo library contacts IDFA background location over-broad permission Guideline 5.1.1(iii) iOS rejection -->
 

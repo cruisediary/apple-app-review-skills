@@ -1,3 +1,9 @@
+---
+name: privacy-policy-check
+description: >-
+  Detects missing, broken, or placeholder privacy policy links in-app, enforcing Guideline 5.1.1(i) which requires a functional, accessible privacy policy within the app itself.
+---
+
 # Skill: Privacy Policy Check
 <!-- SEO: privacy policy URL broken 404 missing in-app https placeholder Guideline 5.1.1 iOS App Store rejection -->
 

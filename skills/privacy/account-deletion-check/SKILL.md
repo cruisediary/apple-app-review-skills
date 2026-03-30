@@ -1,3 +1,9 @@
+---
+name: account-deletion-check
+description: >-
+  Detects missing or insufficient in-app account deletion functionality required since June 30, 2022 under Guideline 5.1.1(v) for all apps that support account creation.
+---
+
 # Skill: Account Deletion Check
 <!-- SEO: account deletion in-app delete user data deactivate Guideline 5.1.1(v) required June 2022 iOS App Store rejection -->
 

@@ -1,3 +1,9 @@
+---
+name: privacy-manifest-check
+description: >-
+  Detects missing or incomplete PrivacyInfo.xcprivacy privacy manifest files, enforcing Guideline 5.1 and Apple's required-reason API declaration policy enforced from May 1, 2024.
+---
+
 # Skill: Privacy Manifest Check
 <!-- SEO: PrivacyInfo.xcprivacy ITMS-91053 missing API declaration NSPrivacyAccessedAPITypes UserDefaults required reason APIs iOS privacy manifest -->
 
