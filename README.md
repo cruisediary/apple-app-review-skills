@@ -6,6 +6,7 @@
 [![Swift](https://img.shields.io/badge/Swift-5.9%2B-orange.svg)](https://swift.org)
 [![Platform](https://img.shields.io/badge/iOS%20%7C%20macOS%20%7C%20tvOS%20%7C%20watchOS-blue.svg)](https://developer.apple.com)
 [![Guidelines](https://img.shields.io/badge/App%20Store%20Review%20Guidelines-2025-informational)](https://developer.apple.com/app-store/review/guidelines/)
+[![agentskills](https://img.shields.io/badge/agentskills.io-compatible-blueviolet)](https://agentskills.io/specification)
 
 ---
 
@@ -42,7 +43,9 @@ This project encodes Apple's full [App Store Review Guidelines](https://develope
 
 ---
 
-## Quick Install
+## Installation
+
+### User-level install (global — works in all your projects)
 
 One-line install — copies all skills and agents to `~/.claude/`:
 
@@ -50,13 +53,32 @@ One-line install — copies all skills and agents to `~/.claude/`:
 curl -fsSL https://raw.githubusercontent.com/cruisediary/apple-app-review-skills/main/install.sh | bash
 ```
 
-Or manually:
+Or clone and install manually:
 
 ```bash
 git clone https://github.com/cruisediary/apple-app-review-skills.git
 cd apple-app-review-skills
 bash install.sh
 ```
+
+### Project-level install (team sharing or per-project isolation)
+
+Install into a specific iOS/macOS app repo so the skills are pinned to your project:
+
+```bash
+# Clone the skills repo
+git clone https://github.com/cruisediary/apple-app-review-skills.git
+
+# cd to your iOS app repo root, then run:
+cd /path/to/your-ios-app
+bash /path/to/apple-app-review-skills/install.sh --project
+
+# Commit .claude/ to share with your team
+git add .claude/
+git commit -m "chore: add app-review-skills for team"
+```
+
+Team members automatically get the skills on `git pull` — no individual install required.
 
 ### What Gets Installed
 
@@ -65,7 +87,7 @@ bash install.sh
 ~/.claude/skills/permissions/       3 skills
 ~/.claude/skills/ugc/               2 skills
 ~/.claude/skills/privacy/           6 skills
-~/.claude/skills/quality/           9 skills
+~/.claude/skills/quality/           8 skills
 ~/.claude/skills/business/          4 skills
 ~/.claude/skills/metadata/          4 skills
 ~/.claude/agents/                   5 agents
@@ -76,6 +98,14 @@ bash install.sh
 ## Usage
 
 Open any iOS/macOS project in Claude Code, then run:
+
+### Enable natural language triggers (optional)
+
+To let Claude respond to natural language requests like "앱 리뷰 통과 가능하게 고쳐줘" without explicit slash commands, add the contents of [`CLAUDE.md.example`](CLAUDE.md.example) to your project's `CLAUDE.md`:
+
+```bash
+cat CLAUDE.md.example >> /path/to/your-ios-app/CLAUDE.md
+```
 
 ### Full audit (recommended before every submission)
 
@@ -217,6 +247,12 @@ Skills in this project are derived from:
 - [Apple Developer News — Account Deletion Requirement](https://developer.apple.com/news/?id=12m75xbj)
 - [Apple Developer Documentation — PrivacyInfo.xcprivacy](https://developer.apple.com/documentation/bundleresources/privacy-manifest-files)
 - Stack Overflow, GitHub Issues (OneSignal, Urban Airship, React Native, Expo)
+
+---
+
+## Specification
+
+Skills follow the [agentskills.io specification](https://agentskills.io/specification) ([github.com/agentskills/agentskills](https://github.com/agentskills/agentskills)) — each skill is a directory containing a `SKILL.md` file with YAML frontmatter.
 
 ---
 
