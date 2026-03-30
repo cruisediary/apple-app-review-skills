@@ -42,7 +42,9 @@ This project encodes Apple's full [App Store Review Guidelines](https://develope
 
 ---
 
-## Quick Install
+## Installation
+
+### User-level install (global — works in all your projects)
 
 One-line install — copies all skills and agents to `~/.claude/`:
 
@@ -50,13 +52,32 @@ One-line install — copies all skills and agents to `~/.claude/`:
 curl -fsSL https://raw.githubusercontent.com/cruisediary/apple-app-review-skills/main/install.sh | bash
 ```
 
-Or manually:
+Or clone and install manually:
 
 ```bash
 git clone https://github.com/cruisediary/apple-app-review-skills.git
 cd apple-app-review-skills
 bash install.sh
 ```
+
+### Project-level install (team sharing or per-project isolation)
+
+Install into a specific iOS/macOS app repo so the skills are pinned to your project:
+
+```bash
+# Clone the skills repo
+git clone https://github.com/cruisediary/apple-app-review-skills.git
+
+# cd to your iOS app repo root, then run:
+cd /path/to/your-ios-app
+bash /path/to/apple-app-review-skills/install.sh --project
+
+# Commit .claude/ to share with your team
+git add .claude/
+git commit -m "chore: add app-review-skills for team"
+```
+
+Team members automatically get the skills on `git pull` — no individual install required.
 
 ### What Gets Installed
 
