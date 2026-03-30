@@ -87,7 +87,7 @@ Team members automatically get the skills on `git pull` — no individual instal
 ~/.claude/skills/permissions/       3 skills
 ~/.claude/skills/ugc/               2 skills
 ~/.claude/skills/privacy/           6 skills
-~/.claude/skills/quality/           9 skills
+~/.claude/skills/quality/           8 skills
 ~/.claude/skills/business/          4 skills
 ~/.claude/skills/metadata/          4 skills
 ~/.claude/agents/                   5 agents
@@ -98,6 +98,14 @@ Team members automatically get the skills on `git pull` — no individual instal
 ## Usage
 
 Open any iOS/macOS project in Claude Code, then run:
+
+### Enable natural language triggers (optional)
+
+To let Claude respond to natural language requests like "앱 리뷰 통과 가능하게 고쳐줘" without explicit slash commands, add the contents of [`CLAUDE.md.example`](CLAUDE.md.example) to your project's `CLAUDE.md`:
+
+```bash
+cat CLAUDE.md.example >> /path/to/your-ios-app/CLAUDE.md
+```
 
 ### Full audit (recommended before every submission)
 

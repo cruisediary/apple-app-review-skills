@@ -1,0 +1,51 @@
+## App Store Review Skills
+
+This project uses [apple-app-review-skills](https://github.com/cruisediary/apple-app-review-skills) — a set of 31 Claude Code skills and agents built from real Apple rejection cases across all App Store Review Guidelines sections (1–5).
+
+### When to invoke
+
+Invoke these skills proactively whenever the user:
+- Asks about App Store submission readiness or rejection risk
+- References an Apple guideline section (1.x – 5.x)
+- Makes changes to permissions, privacy, IAP, UGC, layout, or metadata
+- Asks why a previous submission was rejected or how to appeal
+
+Do not wait to be explicitly asked. If code changes touch any of the areas below, suggest running the relevant audit unprompted.
+
+### Available tools
+
+There are two types of tools: a **slash command** (run directly by the user) and **agents** (invoked by Claude using the Agent tool).
+
+#### Slash command
+
+| Command | Purpose |
+|---------|---------|
+| `/appstore-detect` | Quick project inspection — reads Info.plist, checks permissions, PrivacyInfo.xcprivacy, StoreKit, and crash risk indicators. Run this first to get project context before a full audit. |
+
+#### Agents (invoke via Agent tool)
+
+| Agent | Scope | Triggers |
+|-------|-------|----------|
+| `appstore-full-audit` | Full pre-submission audit (all 31 checks) | "ready to submit", "pre-submission check", "rejection risk", any multi-area concern |
+| `ipad-layout-agent` | iPad layout, Dynamic Type, safe area, orientation | Any layout or UI change, iPad-specific complaints |
+| `permission-audit-agent` | NSUsageDescription strings, permission timing, scope | Adding or changing permission requests |
+| `privacy-audit-agent` | Privacy policy, account deletion, ATT, PrivacyInfo.xcprivacy | Handling user data, adding analytics, account features |
+| `ugc-safety-agent` | UGC report/block/filter/contact info requirements | Adding feeds, comments, chat, or user profiles |
+
+### Routing guidance
+
+- **Quick project inspection** → run `/appstore-detect` first to gather context
+- **Single area concern** → invoke the targeted agent for that area
+- **Multiple areas or pre-submission** → always invoke `appstore-full-audit`
+- **Rejection email received** → identify the guideline section cited, map to the relevant agent above, fix and re-audit before resubmitting
+
+### Priority levels in audit output
+
+| Level | Meaning |
+|-------|---------|
+| 🔴 CRITICAL | Guaranteed rejection — fix before submission |
+| 🟠 HIGH | Very likely rejection — strongly recommended to fix |
+| 🟡 MEDIUM | Possible rejection depending on reviewer — review carefully |
+| 🟢 LOW | Best practice — improves approval confidence |
+
+Address all CRITICAL and HIGH findings before submitting to App Store Connect.
