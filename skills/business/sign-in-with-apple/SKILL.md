@@ -1,3 +1,9 @@
+---
+name: sign-in-with-apple
+description: >-
+  Detects apps that offer third-party social login without offering Sign in with Apple, violating Guideline 4.8 which requires Sign in with Apple wherever third-party authentication is used.
+---
+
 # Skill: Sign in with Apple
 
 <!-- SEO: Sign in with Apple required third-party login social auth Google Facebook Twitter OAuth Guideline 4.8 iOS App Store rejection -->

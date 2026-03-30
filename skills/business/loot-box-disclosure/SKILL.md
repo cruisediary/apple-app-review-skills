@@ -1,3 +1,9 @@
+---
+name: loot-box-disclosure
+description: >-
+  Detects loot box, gacha, and randomized reward purchase mechanics that lack odds disclosure before purchase, enforcing Guideline 3.1.1's requirement to disclose item drop rates.
+---
+
 # Skill: Loot Box Disclosure
 <!-- SEO: loot box gacha drop rates odds disclosure randomized reward mystery box IAP Guideline 3.1.1 iOS App Store rejection -->
 

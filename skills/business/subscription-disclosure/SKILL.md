@@ -1,3 +1,9 @@
+---
+name: subscription-disclosure
+description: >-
+  Detects missing or obscured subscription disclosure elements on paywall screens, enforcing Guideline 3.1.2(c) requirements for auto-renewal terms, trial end dates, and actual price.
+---
+
 # Skill: Subscription Disclosure
 <!-- SEO: subscription auto-renewal disclosure free trial paywall price billing period cancellation Guideline 3.1.2 iOS App Store rejection -->
 

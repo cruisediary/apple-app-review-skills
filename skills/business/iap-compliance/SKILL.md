@@ -1,3 +1,9 @@
+---
+name: iap-compliance
+description: >-
+  Detects external payment processors and WebView payment flows used for digital goods and verifies StoreKit integration, enforcing Guideline 3.1.1's requirement to use Apple IAP for all digital content purchases.
+---
+
 # Skill: IAP Compliance
 <!-- SEO: in-app purchase StoreKit Stripe PayPal external payment WebView digital goods Guideline 3.1.1 iOS App Store rejection -->
 
