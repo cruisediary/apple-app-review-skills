@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # install.sh — apple-app-review-skills installer
 # Copies all skills and agents to ~/.claude/ (user-level) or ./.claude/ (project-level)
+# Skills follow the agentskills.io specification (https://agentskills.io/specification):
+# each skill is a directory containing SKILL.md with YAML frontmatter.
 
 set -e
 
@@ -86,10 +88,17 @@ for category in layout permissions ugc privacy quality business metadata; do
   src_dir="$REPO_DIR/skills/$category"
   dst_dir="$TARGET_DIR/skills/$category"
   if [ -d "$src_dir" ]; then
-    for skill_file in "$src_dir"/*.md; do
-      [ -f "$skill_file" ] || continue
-      if install_file "$skill_file" "$dst_dir/$(basename "$skill_file")"; then
+    for skill_dir in "$src_dir"/*/; do
+      [ -d "$skill_dir" ] || continue
+      skill_name="$(basename "$skill_dir")"
+      dst_skill="$dst_dir/$skill_name"
+      if [ "$FORCE_MODE" = true ] || [ ! -d "$dst_skill" ]; then
+        cp -r "$skill_dir" "$dst_dir/"
+        echo -e "  ${GREEN}ok${NC}    $skill_name/"
         SKILLS_INSTALLED=$((SKILLS_INSTALLED + 1))
+      else
+        echo -e "  ${YELLOW}skip${NC}  $skill_name/ (already exists — use --force to overwrite)"
+        SKIPPED=$((SKIPPED + 1))
       fi
     done
   fi
