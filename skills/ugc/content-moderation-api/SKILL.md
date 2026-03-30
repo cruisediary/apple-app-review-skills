@@ -1,3 +1,9 @@
+---
+name: content-moderation-api
+description: >-
+  Detects absence of a content moderation service integration for apps that accept user-uploaded media or posts, enforcing Guideline 1.2's requirement for timely response to content reports.
+---
+
 # Skill: Content Moderation API
 <!-- SEO: content moderation API image upload UGC review response objectionable AWS Rekognition Perspective OpenAI moderation Guideline 1.2 iOS -->
 

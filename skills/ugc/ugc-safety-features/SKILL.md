@@ -1,3 +1,9 @@
+---
+name: ugc-safety-features
+description: >-
+  Detects missing report, block, filter, and contact information mechanisms required for all apps with user-generated content under Guideline 1.2.
+---
+
 # Skill: UGC Safety Features
 <!-- SEO: user-generated content report button block user EULA content moderation Guideline 1.2 UGC App Store rejection safety -->
 
