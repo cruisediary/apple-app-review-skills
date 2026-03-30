@@ -1,3 +1,9 @@
+---
+name: age-rating-accuracy
+description: >-
+  Detects feature patterns that require a higher age rating than commonly submitted, enforcing Guideline 2.3.6 which requires age ratings to accurately reflect the app's content and social features.
+---
+
 # Skill: Age Rating Accuracy
 <!-- SEO: age rating 4+ 12+ 17+ stranger chat alcohol gambling UGC Guideline 2.3.6 iOS App Store rejection -->
 

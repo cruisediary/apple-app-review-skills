@@ -1,3 +1,9 @@
+---
+name: screenshot-guidelines
+description: >-
+  Detects screenshot submission issues including launch-screen-only assets and cross-platform UI references, enforcing Guideline 2.3.3 which requires screenshots to show the app in actual use.
+---
+
 # Skill: Screenshot Guidelines
 <!-- SEO: App Store screenshots splash screen launch screen Android UI actual app UI Guideline 2.3.3 2.3.10 iOS metadata rejection -->
 

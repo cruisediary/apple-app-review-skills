@@ -1,3 +1,9 @@
+---
+name: metadata-accuracy
+description: >-
+  Detects mismatches between features claimed in App Store metadata and features actually implemented in the codebase, enforcing Guideline 2.3.1 which prohibits misleading app descriptions.
+---
+
 # Skill: Metadata Accuracy
 <!-- SEO: misleading description AR ARKit AI ML features not implemented Android coming soon Guideline 2.3.1 iOS App Store rejection -->
 

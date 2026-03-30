@@ -1,3 +1,9 @@
+---
+name: app-name-compliance
+description: >-
+  Detects app name violations including names exceeding 30 characters, beta labels, Apple trademark terms, and version numbers in the display name, enforcing Guideline 2.3.7.
+---
+
 # Skill: App Name Compliance
 <!-- SEO: app name length 30 characters beta alpha Apple trademark CFBundleDisplayName Guideline 2.3.7 iOS App Store rejection -->
 
