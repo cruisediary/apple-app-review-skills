@@ -120,3 +120,26 @@ Collect all findings from Phase 2 and build the prioritised findings list below.
 
 ## Swift Anti-Pattern Reference
 `examples/swift/BackgroundExecutionPatterns.swift`
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/Info.plist`, `**/*.swift`, `**/*.m`
+
+2. **Search for rejection patterns**
+   - Read `Info.plist` → check `UIBackgroundModes` array values
+   - Grep `AVAudioSession.*categoryPlayback\|AVAudioSession.*setCategory.*playback` + `mixWithOthers` — silent audio abuse
+   - Grep `kCLAuthorizationStatusAuthorizedAlways\|requestAlwaysAuthorization` — always location
+   - Grep `PKPushRegistry\|voip` in `Info.plist` `UIBackgroundModes` — VoIP background mode
+   - Grep `CXProvider\|CXCallController` — CallKit usage (required for VoIP)
+
+3. **Determine verdict**
+   - `audio` in `UIBackgroundModes` + `mixWithOthers` option (silent audio trick) → 🔴 CRITICAL (Guideline 2.5.3)
+   - `location` in `UIBackgroundModes` + app is not navigation/fitness → 🔴 CRITICAL
+   - `voip` in `UIBackgroundModes` + no `CXProvider` (CallKit) usage → 🔴 CRITICAL
+   - Background modes match actual app functionality → 🟢 pass
+
+4. **Report**
+   - `UIBackgroundModes` values found in Info.plist
+   - File path + line of silent audio / location / VoIP misuse
+   - Fix: Remove background modes that don't match core app features; implement CallKit for VoIP

@@ -107,3 +107,25 @@ Collect all findings from Phase 2 and build the prioritised findings list below.
 
 ## Swift Anti-Pattern Reference
 `examples/swift/ReviewRequestPatterns.swift`
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/*.swift`, `**/*.m`
+
+2. **Search for rejection patterns**
+   - Grep `SKStoreReviewController.requestReview\|requestReview()` — find all call sites
+   - For each call site: check if inside `@IBAction`, button handler, or `touchUpInside` — direct user-triggered request
+   - Grep `satisfactionSurvey\|areYouSatisfied\|enjoyingApp\|doYouLikeApp` before `requestReview` — review gating
+   - Grep `itms-apps.*action=write-review` — direct write-review deep link
+
+3. **Determine verdict**
+   - `requestReview()` inside `@IBAction` or button handler → 🔴 CRITICAL (Guideline 5.6.1)
+   - Satisfaction check pattern before `requestReview` → 🔴 CRITICAL (review gating)
+   - `write-review` deep link used → 🔴 CRITICAL
+   - `requestReview()` called at natural journey moments (no button trigger, no gate) → 🟢 pass
+
+4. **Report**
+   - File path + line of `requestReview()` call
+   - Context of the call (function name, surrounding code)
+   - Fix: Move `requestReview()` to a natural positive moment (e.g., after completing a task); remove satisfaction gate

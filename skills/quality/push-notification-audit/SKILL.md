@@ -117,3 +117,23 @@ Collect all findings from Phase 2 and build the prioritised findings list below.
 
 ## Swift Anti-Pattern Reference
 `examples/swift/PushNotificationPatterns.swift`
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/AppDelegate.swift`, `**/SceneDelegate.swift`, `**/*.swift`, `**/*.m`
+
+2. **Search for rejection patterns**
+   - Grep `UNUserNotificationCenter.*requestAuthorization` — push permission request call site
+   - Check if call site is inside `application(_:didFinishLaunchingWithOptions:)` or `scene(_:willConnectTo:)` — launch-time request
+   - Grep `UNUserNotificationCenterDelegate` — delegate conformance
+   - Grep `userNotificationCenter.*didReceive\|willPresent` — delegate method implementations
+
+3. **Determine verdict**
+   - Push authorization requested in `didFinishLaunchingWithOptions` without prior user action → 🟠 HIGH (Guideline 4.5.5)
+   - `UNUserNotificationCenterDelegate` not set → 🟡 MEDIUM
+   - Authorization requested contextually (after user enables a notification feature) → 🟢 pass
+
+4. **Report**
+   - File path + line of launch-time authorization request
+   - Fix: Move `requestAuthorization` call to after user taps a "Enable Notifications" button or enters a relevant feature

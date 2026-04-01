@@ -122,3 +122,26 @@ Run these in your project root to check manually:
 
 ## Swift Anti-Pattern Reference
 `examples/swift/QualityPatterns.swift`
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/*.swift` (exclude `*Tests*`, `*Spec*`, `*Mock*` paths)
+
+2. **Search for rejection patterns**
+   - Grep `\w![.(]` — force unwrap (`value!.property`, `value!(`) — avoids `!=` false positives
+   - Grep `\bas!\b` — force cast
+   - Grep `\btry!\b` — force try
+   - Grep `fatalError\|preconditionFailure` — unconditional crash (flag in non-test files)
+   - Grep `\.reloadData()\|\.reloadSections\|beginUpdates` — check surrounding context for DispatchQueue.main
+
+3. **Determine verdict**
+   - Force unwrap in production Swift file → 🟠 HIGH (Guideline 2.1)
+   - Force cast in production Swift file → 🟠 HIGH
+   - UITableView/UICollectionView reload outside `DispatchQueue.main` → 🔴 CRITICAL
+   - `fatalError` reachable from normal user flow → 🟠 HIGH
+   - No crash-risk patterns in production code → 🟢 pass
+
+4. **Report**
+   - File path + line number of each occurrence
+   - Fix: Replace `value!` with `guard let value = value else { return }` or `if let`; wrap UI updates in `DispatchQueue.main.async { }`

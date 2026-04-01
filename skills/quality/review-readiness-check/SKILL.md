@@ -135,3 +135,25 @@ Run these in your project root to check manually:
 
 ## Swift Anti-Pattern Reference
 `examples/swift/QualityPatterns.swift`
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/Info.plist`, `**/*.swift`, `**/fastlane/`
+
+2. **Search for rejection patterns**
+   - Read `Info.plist` → check `CFBundleShortVersionString` for `beta`, `test`, `0.0`, `0.1`
+   - Read `Info.plist` → check `CFBundleName` / `CFBundleDisplayName` for `beta`, `test`, `debug`
+   - Grep `localhost\|127\.0\.0\.1\|staging\.\|\.dev\.` in Swift constants/configuration files
+   - Check `fastlane/metadata/review_information/` exists with demo credentials
+
+3. **Determine verdict**
+   - `beta` or `test` in bundle version/name → 🟠 HIGH (Guideline 2.1)
+   - Hardcoded staging/localhost URL in production code → 🟠 HIGH
+   - No demo account credentials in fastlane review notes → 🟡 MEDIUM (if login required)
+   - All checks pass → 🟢 pass
+
+4. **Report**
+   - Exact value of `CFBundleShortVersionString` and `CFBundleName`
+   - File path + line of any hardcoded staging URL
+   - Fix: Set version to a release number (e.g., `1.0.0`); use build configuration to switch URLs

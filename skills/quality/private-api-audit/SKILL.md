@@ -119,3 +119,25 @@ Collect all findings from Phase 2 and build the prioritised findings list below.
 
 ## Swift Anti-Pattern Reference
 `examples/swift/PrivateAPIPatterns.swift`
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/*.swift`, `**/*.m`
+
+2. **Search for rejection patterns**
+   - Grep `dlopen\|dlsym` — dynamic linking to private frameworks
+   - Grep `NSClassFromString` — dynamic class lookup (check argument for private class names like `_UIBackgroundTaskInfo`, `SpringBoard`, `_UIApplication`)
+   - Grep `method_exchangeImplementations\|class_replaceMethod\|class_addMethod` — method swizzling
+   - Grep `_[a-z][a-zA-Z]*:` in `.m` files only — ObjC underscore-prefixed private selectors
+   - Grep `performSelector\|perform(_:with:\|perform(_:)` — check selector name for leading underscore
+
+3. **Determine verdict**
+   - Any `dlopen`/`dlsym` usage → 🔴 CRITICAL (Guideline 2.5.1, ITMS-90338)
+   - `NSClassFromString` with private class name → 🔴 CRITICAL
+   - Method swizzling of system classes → 🔴 CRITICAL
+   - No private API patterns found → 🟢 pass
+
+4. **Report**
+   - File path + line number of each private API usage
+   - Fix: Remove all dynamic linking and private selector calls; use only public APIs documented at developer.apple.com

@@ -126,3 +126,24 @@ Run these in your project root to check manually:
 
 ## Swift Anti-Pattern Reference
 `examples/swift/QualityPatterns.swift`
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/*.swift`, `**/*.m`, `**/*.strings`, `**/*.storyboard`, `**/*.xib`
+
+2. **Search for rejection patterns**
+   - Grep `[Ll]orem ipsum` in all files — placeholder text
+   - Grep `TODO\|FIXME\|HACK` in strings files (`.strings`) — unfinished UI copy
+   - Grep `"Coming Soon"\|"Under Construction"\|"Not implemented"` in strings files
+   - Grep `isHidden = true` on `UITabBarItem\|UINavigationBar\|UIBarButtonItem` — hidden navigation
+
+3. **Determine verdict**
+   - `Lorem ipsum` found in strings or storyboard → 🟠 HIGH (Guideline 2.1)
+   - Entire tab or navigation item hidden/disabled → 🔴 CRITICAL
+   - `Coming Soon` screen reachable from navigation → 🔴 CRITICAL
+   - No placeholder content found → 🟢 pass
+
+4. **Report**
+   - File path + line number of each placeholder occurrence
+   - Fix: Replace all placeholder text with real content before submission; remove or implement all navigation items
