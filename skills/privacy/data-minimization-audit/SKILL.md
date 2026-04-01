@@ -106,3 +106,26 @@ Run these in your project root to check manually:
 
 ## Swift Anti-Pattern Reference
 `examples/swift/PrivacyPatterns.swift`
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/*.swift`, `**/*.m`, `**/Info.plist`
+
+2. **Search for rejection patterns**
+   - Grep `CNContactStore\|requestAccess.*contacts` — full contacts access
+   - Grep `CNContactPickerViewController` — out-of-process picker (correct alternative)
+   - Grep `requestAlwaysAuthorization` — always-on location
+   - Grep `requestWhenInUseAuthorization` — when-in-use (acceptable for most apps)
+   - Grep `PHPhotoLibrary.requestAuthorization` — full photo library access
+   - Grep `PHPickerViewController` — out-of-process photo picker (correct alternative)
+
+3. **Determine verdict**
+   - `CNContactStore` used + no `CNContactPickerViewController` → 🟠 HIGH (Guideline 5.1.1(iii))
+   - `requestAlwaysAuthorization` without navigation/tracking justification → 🟠 HIGH
+   - `PHPhotoLibrary.requestAuthorization` without `PHPickerViewController` alternative → 🟠 HIGH
+   - Out-of-process pickers used throughout → 🟢 pass
+
+4. **Report**
+   - File path + line where full access is requested
+   - Fix: Replace `CNContactStore` with `CNContactPickerViewController`; replace `PHPhotoLibrary.requestAuthorization` with `PHPickerViewController`

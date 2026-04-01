@@ -112,3 +112,25 @@ Run these in your project root to check manually:
 
 ## Swift Anti-Pattern Reference
 `examples/swift/PrivacyPatterns.swift`
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/*.swift`, `**/*.m`
+
+2. **Search for rejection patterns**
+   - Grep `createAccount\|signUp\|register\|SignUp\|CreateAccount` — confirms account creation exists
+   - Grep `deleteAccount\|delete_account\|removeAccount\|accountDeletion\|DeleteAccount` — deletion implementation
+   - Grep `deactivate\|suspend\|disable.*[Aa]ccount` — deactivation-only pattern (insufficient)
+   - Grep `ASAuthorizationAppleIDProvider\|revokeToken` — Sign in with Apple token revocation
+
+3. **Determine verdict**
+   - Account creation found + no deletion pattern → 🔴 CRITICAL (Guideline 5.1.1(v), required since June 30, 2022)
+   - Only `deactivate`/`suspend` found without `delete` → 🔴 CRITICAL (deactivation ≠ deletion)
+   - Sign in with Apple used + no `revokeToken` → 🟠 HIGH
+   - Deletion found + revocation present → 🟢 pass
+
+4. **Report**
+   - File where account creation is found (line number)
+   - Confirm deletion is absent or only deactivation exists
+   - Fix: Implement Settings → Account → Delete Account with server-side data deletion and credential revocation

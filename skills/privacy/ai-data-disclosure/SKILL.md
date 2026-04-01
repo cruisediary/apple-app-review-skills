@@ -107,3 +107,24 @@ Collect all findings from Phase 2 and build the prioritised findings list below.
 
 ## Swift Anti-Pattern Reference
 `examples/swift/AIDisclosurePatterns.swift`
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/*.swift`, `**/*.m`, `**/Podfile`, `**/Package.swift`
+
+2. **Search for rejection patterns**
+   - Grep `OpenAI\|openai\|GPT\|ChatGPT` — OpenAI SDK or API usage
+   - Grep `GoogleGenerativeAI\|gemini\|Gemini` — Google Gemini usage
+   - Grep `Anthropic\|claude\|Claude` — Anthropic SDK usage
+   - Grep `URLSession.*openai\.com\|URLRequest.*anthropic\.com` — direct API calls
+   - Grep `aiDisclosure\|aiConsent\|dataSharing.*AI\|AIDataSharing` — disclosure UI implementation
+
+3. **Determine verdict**
+   - Any AI SDK/API found + no disclosure UI (`aiDisclosure`/`aiConsent`) → 🔴 CRITICAL (Guideline 1.6.1, 5.1.2(i))
+   - AI SDK found + disclosure present but generic privacy policy only → 🟠 HIGH
+   - Explicit in-app disclosure naming the AI provider found → 🟢 pass
+
+4. **Report**
+   - File path + line where AI SDK is imported or API is called
+   - Fix: Present an explicit modal before first API call naming the provider (e.g., "This app uses OpenAI to process your messages") with affirmative consent button

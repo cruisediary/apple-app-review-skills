@@ -123,3 +123,27 @@ Run these in your project root to check manually:
 
 ## Swift Anti-Pattern Reference
 `examples/swift/PrivacyPatterns.swift`
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/PrivacyInfo.xcprivacy`
+
+2. **Search for rejection patterns**
+   - File existence check: if no `PrivacyInfo.xcprivacy` found → immediate CRITICAL
+   - Grep `NSPrivacyAccessedAPITypes` in the file — must be present
+   - Check for required reason API declarations:
+     - `NSFileSystemFreeSize` → reason `E174.1`
+     - `NSFileSystemSize` → reason `E174.1`
+     - `NSUserDefaults` → reason `CA92.1`
+     - `systemUptime` → reason `35F9.1`
+   - Grep these APIs in `*.swift` files to cross-reference with manifest declarations
+
+3. **Determine verdict**
+   - `PrivacyInfo.xcprivacy` missing → 🔴 CRITICAL (ITMS-91053)
+   - Required reason API used in Swift but not declared in manifest → 🟠 HIGH
+   - All used APIs declared → 🟢 pass
+
+4. **Report**
+   - Missing file: report that `PrivacyInfo.xcprivacy` must be added to the app target
+   - Missing declaration: report API name, required reason code, and file where API is used

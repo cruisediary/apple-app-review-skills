@@ -107,3 +107,22 @@ Run these in your project root to check manually:
 
 ## Swift Anti-Pattern Reference
 `examples/swift/PrivacyPatterns.swift`
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/*.swift`, `**/*.m`, `**/Info.plist`, `**/*.storyboard`, `**/*.xib`
+
+2. **Search for rejection patterns**
+   - Grep `privacyPolicy\|privacy_policy\|PrivacyPolicy` in Swift/ObjC files — look for privacy policy URL or navigation
+   - Grep `NSPrivacyAccessedAPITypes` in `PrivacyInfo.xcprivacy` — presence check
+   - Read `Info.plist` → check `LSApplicationQueriesSchemes` for `http` scheme without privacy disclosure
+
+3. **Determine verdict**
+   - No `privacyPolicy` reference found in any Swift/ObjC file → 🔴 CRITICAL (Guideline 5.1.1(i))
+   - Reference found but navigates to hardcoded URL without HTTPS → 🟠 HIGH
+   - All checks pass → 🟢 pass
+
+4. **Report**
+   - File path + line number where privacy policy link was (or was not) found
+   - Fix: Add `SafariServices.SFSafariViewController` presenting `https://yourapp.com/privacy` from Settings or About screen
