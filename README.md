@@ -99,6 +99,35 @@ Team members automatically get the skills on `git pull` — no individual instal
 
 Open any iOS/macOS project in Claude Code, then run:
 
+### Quick Demo
+
+Ask Claude Code in natural language — no slash commands needed if you've added `CLAUDE.md.example`:
+
+```
+"Will my app pass App Store review?"
+"Check my app for rejection risks before I submit"
+"Fix the subscription paywall so it doesn't get rejected"
+```
+
+Claude routes to the appropriate skill and returns a prioritized report:
+
+```
+🔴 CRITICAL — account-deletion-check
+   No in-app account deletion found. Required since June 30, 2022.
+   Fix: Add Settings → Account → Delete Account flow with server-side deletion.
+
+🟠 HIGH — subscription-disclosure
+   Free trial paywall does not state what happens after the trial ends.
+   Fix: Add "Then $9.99/month, cancel anytime" below the CTA button.
+
+🟡 MEDIUM — privacy-manifest-check
+   PrivacyInfo.xcprivacy missing NSFileSystemFreeSize declaration.
+   Fix: Add reason "E174.1" to PrivacyInfo.xcprivacy.
+
+🟢 LOW — dynamic-type-support
+   3 labels use fixed font size. Consider UIFontMetrics for accessibility.
+```
+
 ### Enable natural language triggers (optional)
 
 To let Claude respond to natural language requests like "앱 리뷰 통과 가능하게 고쳐줘" without explicit slash commands, add the contents of [`CLAUDE.md.example`](CLAUDE.md.example) to your project's `CLAUDE.md`:
