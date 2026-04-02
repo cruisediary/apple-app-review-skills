@@ -131,3 +131,23 @@ Run these in your project root to check manually:
 
 ## Swift Anti-Pattern Reference
 `examples/swift/SubscriptionPatterns.swift` (auth flow patterns)
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/*.swift`, `**/*.m`, `**/project.pbxproj`, `**/Info.plist`
+
+2. **Search for rejection patterns**
+   - Grep `GIDSignIn\|GoogleSignIn\|FBSDKLoginButton\|LoginWithAmazon\|TwitterAuthProvider` — third-party auth SDKs
+   - Grep `ASAuthorizationAppleIDButton\|SignInWithAppleButton` — Apple sign-in button
+   - Grep `ASAuthorizationAppleIDProvider\|ASAuthorizationController` — Apple auth implementation
+   - Grep `getCredentialState\|credentialState.*revoked` — credential state handling
+
+3. **Determine verdict**
+   - Third-party auth SDK found + no `ASAuthorizationAppleIDButton` → 🔴 CRITICAL (Guideline 4.8)
+   - `ASAuthorizationAppleIDButton` present but no `getCredentialState` handling → 🟠 HIGH
+   - Apple Sign-In implemented with credential state handling → 🟢 pass
+
+4. **Report**
+   - File path + line of third-party auth without Apple alternative
+   - Fix: Add `ASAuthorizationAppleIDButton` alongside existing login options; implement `ASAuthorizationAppleIDProvider().getCredentialState` on app launch

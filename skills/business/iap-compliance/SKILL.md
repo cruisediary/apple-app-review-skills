@@ -125,3 +125,23 @@ Run these in your project root to check manually:
 
 ## Swift Anti-Pattern Reference
 `examples/swift/SubscriptionPatterns.swift`
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/*.swift`, `**/*.m`, `**/*.storyboard`, `**/*.xib`
+
+2. **Search for rejection patterns**
+   - Grep `SKPaymentQueue\|StoreKit\|Product.purchase\|SKProduct` — legitimate IAP usage
+   - Grep `WKWebView\|SFSafariViewController` — web view usage
+   - Grep `stripe\|paypal\|braintree\|Stripe\|PayPal` — third-party payment SDKs
+   - Grep `externalPurchase\|unlockPremium\|purchaseExternal` near web URLs
+
+3. **Determine verdict**
+   - `stripe`/`paypal` SDK for digital content + no `StoreKit` alternative → 🔴 CRITICAL (Guideline 3.1.1)
+   - `WKWebView` loading payment page for digital goods → 🔴 CRITICAL
+   - `StoreKit` used for all digital purchases → 🟢 pass
+
+4. **Report**
+   - File path + line of third-party payment SDK import or web payment URL
+   - Fix: Replace all digital content payments with StoreKit `Product.purchase()` (StoreKit 2) or `SKPaymentQueue.default().add()`

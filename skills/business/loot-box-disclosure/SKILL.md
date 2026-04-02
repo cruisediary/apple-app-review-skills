@@ -112,3 +112,22 @@ Run these in your project root to check manually:
 
 ## Swift Anti-Pattern Reference
 `examples/swift/SubscriptionPatterns.swift`
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/*.swift`, `**/*.m`
+
+2. **Search for rejection patterns**
+   - Grep `randomItem\|randomReward\|gachaPool\|lootBox\|mysteryBox\|LootBox\|GachaPool` — randomized reward system
+   - Grep `dropRate\|dropChance\|probability\|odds\|DropRate` — odds disclosure implementation
+   - Grep `SKProduct\|Product.purchase` near randomized reward logic — IAP for randomized items
+
+3. **Determine verdict**
+   - Randomized reward pattern found + paid via IAP + no `dropRate`/`odds` disclosure → 🔴 CRITICAL (Guideline 3.1.1)
+   - Randomized rewards are free (no IAP) → 🟢 pass (no requirement)
+   - Odds table present alongside IAP purchase → 🟢 pass
+
+4. **Report**
+   - File path + line of randomized reward + IAP combination
+   - Fix: Display odds for each item type before purchase; implement an odds table UI accessible from the purchase flow
