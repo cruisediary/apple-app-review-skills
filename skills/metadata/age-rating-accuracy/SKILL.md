@@ -105,3 +105,25 @@ Run these in your project root to check manually:
 
 ## Swift Anti-Pattern Reference
 `examples/swift/QualityPatterns.swift`
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/*.swift`, `**/*.m`, `**/Info.plist`
+
+2. **Search for rejection patterns**
+   - Grep `NSLocationWhenInUseUsageDescription\|NSLocationAlwaysUsageDescription` — location features
+   - Grep `AVCaptureDevice\|AVCaptureSession\|camera` — camera features
+   - Grep `MessageUI\|MFMailComposeViewController\|MFMessageComposeViewController` — messaging
+   - Grep `MKMapView\|MapKit` — map/location display
+   - Check `Info.plist` `ITSAppUsesNonExemptEncryption`
+
+3. **Determine verdict**
+   - Location + camera + messaging features present → minimum age rating 12+ → flag if rated 4+
+   - User chat or stranger messaging possible → minimum age rating 17+ → flag if rated lower
+   - Features match declared age rating → 🟢 pass
+
+4. **Report**
+   - Features detected that may require higher age rating
+   - Note: Age rating is set in App Store Connect, not in code — this is a consistency check
+   - Fix: Review age rating in App Store Connect and raise it to match app features

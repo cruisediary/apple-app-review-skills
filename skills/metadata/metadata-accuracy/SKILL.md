@@ -122,3 +122,25 @@ Run these in your project root to check manually:
 
 ## Swift Anti-Pattern Reference
 `examples/swift/QualityPatterns.swift`
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/fastlane/metadata/`, `**/Info.plist`
+
+2. **Search for rejection patterns**
+   - Read `fastlane/metadata/en-US/description.txt` — extract feature claims
+   - Cross-reference claimed features against actual Swift implementation (grep feature keywords)
+   - Read `fastlane/metadata/en-US/keywords.txt` — check for competitor brand names
+   - Check `fastlane/metadata/en-US/support_url.txt` — **runtime check**: verify URL resolves (HTTP 200); flag if file is missing
+
+3. **Determine verdict**
+   - Feature described in metadata but no matching Swift code found → 🟠 HIGH (Guideline 2.3.10)
+   - Competitor brand name in keywords → 🟠 HIGH
+   - Support URL missing or unreachable → 🟠 HIGH (Guideline 2.1)
+   - All described features implemented, support URL reachable → 🟢 pass
+
+4. **Report**
+   - Feature claims with no matching code
+   - Keywords containing competitor names
+   - Fix: Remove unimplemented feature claims from description; remove competitor names from keywords; ensure support URL returns HTTP 200

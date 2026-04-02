@@ -100,3 +100,23 @@ Run these in your project root to check manually:
 
 ## Swift Anti-Pattern Reference
 `examples/swift/QualityPatterns.swift`
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/fastlane/screenshots/`, `**/*.xcassets`, `**/AppStoreConnect/`
+
+2. **Search for rejection patterns**
+   - Check `fastlane/screenshots/` directory exists and contains image files
+   - Grep `LaunchScreen\|Splash\|splash\|launch_screen` in screenshot filenames
+   - Check for required App Store screenshot sizes: `1290x2796` (iPhone 15 Pro Max), `2048x2732` (iPad Pro 12.9")
+
+3. **Determine verdict**
+   - No screenshots directory or empty → 🟠 HIGH (Guideline 2.3.3)
+   - Screenshots show splash/launch screen only → 🟠 HIGH
+   - Screenshots missing required device sizes → 🟠 HIGH
+   - Screenshots show actual in-app UI at required sizes → 🟢 pass
+
+4. **Report**
+   - Missing screenshot sizes or splash-only screenshots
+   - Fix: Capture screenshots showing core app UI on iPhone 15 Pro Max and iPad Pro 12.9"; use Fastlane snapshot for automation
