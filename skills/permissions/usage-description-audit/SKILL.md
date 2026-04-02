@@ -137,3 +137,24 @@ Run these in your project root to check manually:
 
 ## Swift Anti-Pattern Reference
 `examples/swift/PermissionPatterns.swift`
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/Info.plist`, `**/*.swift`, `**/*.m`, `**/Podfile.lock`
+
+2. **Search for rejection patterns**
+   - Read `Info.plist` → extract all `NS*UsageDescription` keys and their string values
+   - Flag values shorter than 10 characters or matching `App needs access\|To improve your experience\|Required`
+   - Grep `requestAccess\|requestAuthorization\|requestWhenInUseAuthorization\|requestAlwaysAuthorization` in Swift — cross-reference with Info.plist keys
+   - Grep `NSLocationAlwaysUsageDescription\|NSPhotoLibraryUsageDescription` in `Podfile.lock` comments (third-party SDK additions)
+
+3. **Determine verdict**
+   - Permission requested in code + corresponding `NS*UsageDescription` missing from Info.plist → 🔴 CRITICAL (Guideline 5.1.1(ii))
+   - `NS*UsageDescription` value is generic (< 10 chars or matches boilerplate) → 🟠 HIGH
+   - All descriptions are specific and descriptive → 🟢 pass
+
+4. **Report**
+   - Missing key name and the code location requesting that permission
+   - Exact value of any generic description
+   - Fix: Add specific purpose strings explaining exactly what the permission enables (e.g., "To attach photos to your messages" instead of "Photo access needed")

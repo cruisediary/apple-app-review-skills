@@ -101,3 +101,25 @@ Run these in your project root to check manually:
 
 ## Swift Anti-Pattern Reference
 `examples/swift/PermissionPatterns.swift`
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/*.swift`, `**/*.m`, `**/Info.plist`
+
+2. **Search for rejection patterns**
+   - Grep `requestAlwaysAuthorization` — always-on location (highest scope)
+   - Grep `requestWhenInUseAuthorization` — when-in-use location (acceptable default)
+   - Grep `CNContactStore.*requestAccess` + absence of `CNContactPickerViewController` — full contacts vs picker
+   - Grep `PHPhotoLibrary.requestAuthorization` + absence of `PHPickerViewController` — full library vs picker
+   - Read `Info.plist` → check if both `NSLocationWhenInUseUsageDescription` and `NSLocationAlwaysUsageDescription` present
+
+3. **Determine verdict**
+   - `requestAlwaysAuthorization` for non-navigation/fitness app → 🟠 HIGH (Guideline 5.1.1(iii))
+   - Full `CNContactStore` access when picker would suffice → 🟠 HIGH
+   - Full photo library access when `PHPickerViewController` would suffice → 🟠 HIGH
+   - Minimum necessary scope used for each permission → 🟢 pass
+
+4. **Report**
+   - File path + line of over-scoped permission request
+   - Fix: Use `requestWhenInUseAuthorization` unless navigation tracking is core; use `CNContactPickerViewController` and `PHPickerViewController` instead of direct library access
