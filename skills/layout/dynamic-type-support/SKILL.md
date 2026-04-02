@@ -105,3 +105,23 @@ Run these in your project root to check manually:
 
 ## Swift Anti-Pattern Reference
 `examples/swift/LayoutPatterns.swift`
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/*.swift`, `**/*.m`
+
+2. **Search for rejection patterns**
+   - Grep `\.systemFont(ofSize:` without adjacent `UIFontMetrics` — fixed system font
+   - Grep `UIFont(name:.*size:` without `UIFontMetrics.default.scaledFont` — fixed custom font
+   - Grep `heightAnchor\.constant =\|frame\.size\.height =` near `UILabel\|UITextView` — fixed-height text containers
+   - Grep `numberOfLines = 1` without `adjustsFontSizeToFitWidth = true`
+
+3. **Determine verdict**
+   - Fixed font size on a visible label (not icon/decoration) → 🟡 MEDIUM
+   - Fixed-height container clipping label text → 🟡 MEDIUM
+   - `UIFontMetrics` or SwiftUI semantic fonts (`.body`, `.headline`) used → 🟢 pass
+
+4. **Report**
+   - File path + line of fixed-size font usage
+   - Fix: Wrap custom fonts with `UIFontMetrics(forTextStyle: .body).scaledFont(for: font)`; use `adjustsFontForContentSizeCategory = true` on labels
