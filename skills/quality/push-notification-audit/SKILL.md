@@ -130,7 +130,7 @@ Collect all findings from Phase 2 and build the prioritised findings list below.
    - Grep `userNotificationCenter.*didReceive\|willPresent` — delegate method implementations
 
 3. **Determine verdict**
-   - Push authorization requested in `didFinishLaunchingWithOptions` without prior user action → 🟠 HIGH (Guideline 4.5.5)
+   - Push authorization requested in `didFinishLaunchingWithOptions` without prior user action → 🟠 HIGH (Guideline 4.5.4)
    - `UNUserNotificationCenterDelegate` not set → 🟡 MEDIUM
    - Authorization requested contextually (after user enables a notification feature) → 🟢 pass
 

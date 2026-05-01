@@ -134,7 +134,7 @@ Collect all findings from Phase 2 and build the prioritised findings list below.
    - Grep `CXProvider\|CXCallController` — CallKit usage (required for VoIP)
 
 3. **Determine verdict**
-   - `audio` in `UIBackgroundModes` + `mixWithOthers` option (silent audio trick) → 🔴 CRITICAL (Guideline 2.5.3)
+   - `audio` in `UIBackgroundModes` + `mixWithOthers` option (silent audio trick) → 🔴 CRITICAL (Guideline 2.5.4)
    - `location` in `UIBackgroundModes` + app is not navigation/fitness → 🔴 CRITICAL
    - `voip` in `UIBackgroundModes` + no `CXProvider` (CallKit) usage → 🔴 CRITICAL
    - Background modes match actual app functionality → 🟢 pass

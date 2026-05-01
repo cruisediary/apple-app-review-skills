@@ -132,14 +132,15 @@ Run these in your project root to check manually:
    - Glob: `**/*.swift`, `**/*.m`, `**/*.storyboard`, `**/*.xib`
 
 2. **Search for rejection patterns**
-   - Grep `SKPaymentQueue\|StoreKit\|Product.purchase\|SKProduct` — legitimate IAP usage
-   - Grep `WKWebView\|SFSafariViewController` — web view usage
-   - Grep `stripe\|paypal\|braintree\|Stripe\|PayPal` — third-party payment SDKs
-   - Grep `externalPurchase\|unlockPremium\|purchaseExternal` near web URLs
+   - Grep `SKPaymentQueue\|StoreKit\|Product.purchase\|SKProduct` — confirms StoreKit is in use
+   - Grep `stripe\|paypal\|braintree\|Stripe\|PayPal` — third-party payment SDKs (flag for digital goods)
+   - Grep `externalPurchase\|purchaseExternal` — explicit external payment identifiers
+   - If third-party SDK found: grep nearby strings for digital product terms (`subscription\|premium\|unlock\|credit\|coin`) to confirm digital goods context
 
 3. **Determine verdict**
-   - `stripe`/`paypal` SDK for digital content + no `StoreKit` alternative → 🔴 CRITICAL (Guideline 3.1.1)
-   - `WKWebView` loading payment page for digital goods → 🔴 CRITICAL
+   - `stripe`/`paypal` import + digital goods strings nearby + no `StoreKit` → 🔴 CRITICAL (Guideline 3.1.1)
+   - `stripe`/`paypal` import + physical goods context only (e.g., `shipping\|delivery\|store`) → 🟢 pass (physical goods are exempt)
+   - `WKWebView` alone is not sufficient to flag — only flag if URL loads a payment form for digital goods (requires manual review)
    - `StoreKit` used for all digital purchases → 🟢 pass
 
 4. **Report**

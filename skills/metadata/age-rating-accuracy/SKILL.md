@@ -112,18 +112,19 @@ Run these in your project root to check manually:
    - Glob: `**/*.swift`, `**/*.m`, `**/Info.plist`
 
 2. **Search for rejection patterns**
-   - Grep `NSLocationWhenInUseUsageDescription\|NSLocationAlwaysUsageDescription` — location features
-   - Grep `AVCaptureDevice\|AVCaptureSession\|camera` — camera features
-   - Grep `MessageUI\|MFMailComposeViewController\|MFMessageComposeViewController` — messaging
-   - Grep `MKMapView\|MapKit` — map/location display
-   - Check `Info.plist` `ITSAppUsesNonExemptEncryption`
+   - Grep `alcohol\|tobacco\|gambling\|casino\|betting\|Gambling` — regulated content categories
+   - Grep `nudity\|explicit\|adult.*content\|NSFW` — mature content indicators
+   - Grep `violence\|gore\|brutal\|Violent` — violence content indicators
+   - Read `Info.plist` → check `CFBundleShortVersionString` for existing age rating indicators
+   - Note: Apple determines age rating from a questionnaire about **content** (violence level, sexual content, profanity, drug/alcohol references, gambling) — not from hardware APIs used
 
 3. **Determine verdict**
-   - Location + camera + messaging features present → minimum age rating 12+ → flag if rated 4+
-   - User chat or stranger messaging possible → minimum age rating 17+ → flag if rated lower
-   - Features match declared age rating → 🟢 pass
+   - Gambling/casino content found (`casino\|betting\|roulette`) → flag for 17+ content rating review
+   - Explicit or mature content patterns found → flag for age-appropriate rating review
+   - **Cannot determine age rating from API usage alone** — location/camera/messaging APIs do not affect rating
+   - All content checks clean → 🟢 pass (confirm rating in App Store Connect questionnaire)
 
 4. **Report**
-   - Features detected that may require higher age rating
-   - Note: Age rating is set in App Store Connect, not in code — this is a consistency check
-   - Fix: Review age rating in App Store Connect and raise it to match app features
+   - Content patterns found that may require a higher content rating
+   - Note: Age rating is configured entirely in App Store Connect via a questionnaire — this is a content-pattern hint only
+   - Fix: Review the age rating questionnaire in App Store Connect; select accurate answers for violence level, sexual content, profanity, drug references, and gambling

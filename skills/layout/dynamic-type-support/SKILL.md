@@ -111,11 +111,12 @@ Run these in your project root to check manually:
 1. **Find target files**
    - Glob: `**/*.swift`, `**/*.m`
 
-2. **Search for rejection patterns**
-   - Grep `\.systemFont(ofSize:` without adjacent `UIFontMetrics` — fixed system font
-   - Grep `UIFont(name:.*size:` without `UIFontMetrics.default.scaledFont` — fixed custom font
-   - Grep `heightAnchor\.constant =\|frame\.size\.height =` near `UILabel\|UITextView` — fixed-height text containers
-   - Grep `numberOfLines = 1` without `adjustsFontSizeToFitWidth = true`
+2. **Search for rejection patterns** (two-pass approach required)
+   - Pass A — Grep `\.systemFont(ofSize:` → collect all matches
+   - Pass B — Grep `UIFontMetrics` in the same files; lines not covered by Pass B are fixed-size fonts
+   - Grep `UIFont(name:` → custom font; check same file for `UIFontMetrics.default.scaledFont` or `scaledFont(for:`
+   - Grep `heightAnchor\.constant =\|frame\.size\.height =` — fixed-height containers (manual check: is the container holding a label?)
+   - Grep `numberOfLines = 1` — single-line labels (verify surrounding context for `adjustsFontSizeToFitWidth`)
 
 3. **Determine verdict**
    - Fixed font size on a visible label (not icon/decoration) → 🟡 MEDIUM

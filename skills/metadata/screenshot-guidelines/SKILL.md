@@ -104,12 +104,13 @@ Run these in your project root to check manually:
 ## Detection Steps
 
 1. **Find target files**
-   - Glob: `**/fastlane/screenshots/`, `**/*.xcassets`, `**/AppStoreConnect/`
+   - Glob: `**/fastlane/screenshots/` (Fastlane projects), `**/*.xcassets`, `**/AppStoreConnect/`
+   - Note: Screenshots are often managed outside the repo (Xcode Organizer, App Store Connect web). If no local screenshot directory is found, flag for manual verification rather than treating as a definitive absence.
 
 2. **Search for rejection patterns**
-   - Check `fastlane/screenshots/` directory exists and contains image files
-   - Grep `LaunchScreen\|Splash\|splash\|launch_screen` in screenshot filenames
-   - Check for required App Store screenshot sizes: `1290x2796` (iPhone 15 Pro Max), `2048x2732` (iPad Pro 12.9")
+   - If `fastlane/screenshots/` exists: check it contains image files for `en-US` locale
+   - Grep `LaunchScreen\|Splash\|splash\|launch_screen` in screenshot filenames — launch screen used as screenshot
+   - Check for required App Store screenshot sizes: `1290x2796` (6.7" iPhone 15 Pro Max), `2048x2732` (iPad Pro 12.9")
 
 3. **Determine verdict**
    - No screenshots directory or empty → 🟠 HIGH (Guideline 2.3.3)

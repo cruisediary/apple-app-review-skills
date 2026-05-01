@@ -135,4 +135,4 @@ Run these in your project root to check manually:
 4. **Report**
    - File path + line of hardcoded width
    - Missing Info.plist key
-   - Fix: Replace hardcoded widths with `UIScreen.main.bounds.width` or Auto Layout constraints; add `UISupportedInterfaceOrientations~ipad` to Info.plist
+   - Fix: Replace hardcoded widths with Auto Layout constraints or `view.bounds.width` (scene-based); `UIScreen.main` is deprecated since iOS 16 — do not use it as a replacement; add `UISupportedInterfaceOrientations~ipad` to Info.plist

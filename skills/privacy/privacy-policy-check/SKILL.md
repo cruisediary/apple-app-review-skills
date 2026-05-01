@@ -115,8 +115,8 @@ Run these in your project root to check manually:
 
 2. **Search for rejection patterns**
    - Grep `privacyPolicy\|privacy_policy\|PrivacyPolicy` in Swift/ObjC files — look for privacy policy URL or navigation
-   - Grep `NSPrivacyAccessedAPITypes` in `PrivacyInfo.xcprivacy` — presence check
-   - Read `Info.plist` → check `LSApplicationQueriesSchemes` for `http` scheme without privacy disclosure
+   - Grep `SFSafariViewController\|UIApplication.shared.open` near `privacy` string — in-app browser launch
+   - Grep `NSPrivacyAccessedAPITypes` in `PrivacyInfo.xcprivacy` — confirms manifest exists
 
 3. **Determine verdict**
    - No `privacyPolicy` reference found in any Swift/ObjC file → 🔴 CRITICAL (Guideline 5.1.1(i))
