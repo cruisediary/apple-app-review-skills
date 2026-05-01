@@ -1,24 +1,24 @@
 ---
 name: ai-data-disclosure
 description: >-
-  Detects apps that send user data to third-party AI systems without explicit in-app consent and disclosure, enforcing Guidelines 1.6.1 and 5.1.2(i).
+  Detects apps that send user data to third-party AI systems without explicit in-app consent and disclosure, enforcing Guideline 5.1.2(i).
 ---
 
 # Skill: AI Data Disclosure
-<!-- SEO: third-party AI ChatGPT OpenAI Gemini Anthropic data sharing consent disclosure privacy 5.1.2(i) 1.6.1 iOS App Store rejection -->
+<!-- SEO: third-party AI ChatGPT OpenAI Gemini Anthropic data sharing consent disclosure privacy 5.1.2(i) iOS App Store rejection -->
 
 ## Purpose
-Detects apps that send user data to third-party AI systems (OpenAI, Google Gemini, Anthropic, etc.) without explicit in-app consent and disclosure, enforcing Guidelines 1.6.1 and 5.1.2(i) which require transparency before any user data is transmitted to external AI services.
+Detects apps that send user data to third-party AI systems (OpenAI, Google Gemini, Anthropic, etc.) without explicit in-app consent and disclosure, enforcing Guideline 5.1.2(i) which requires transparency before any user data is transmitted to external AI services.
 
 ## Apple Guideline
 - **Primary:** 5.1.2(i) — Privacy: Third-Party AI Data Sharing
-- **Related:** 1.6.1, 5.1.1(i)
+- **Related:** 5.1.1(i) — Privacy Policy
 - **Reference:** `references/guidelines/5-legal.md`
 
 ## Real-World Rejection Cases
 - **Case:** App sent user messages to OpenAI API without disclosing this in the app or privacy policy — rejected under 5.1.2(i)
   **Source:** Apple Developer Forums (multiple developer reports, 2023–2024)
-  **Root cause:** Guideline 1.6.1 / 5.1.2(i) requires explicit disclosure and user consent before transmitting data to any third-party AI system — a generic "we may share data with service providers" clause in the privacy policy is insufficient; the app must present a clear in-app notice before AI processing occurs
+  **Root cause:** Guideline 5.1.2(i) requires explicit disclosure and user consent before transmitting data to any third-party AI system — a generic "we may share data with service providers" clause in the privacy policy is insufficient; the app must present a clear in-app notice before AI processing occurs
 
 - **Case:** Health app transcribed user speech on-device and then sent transcripts to a third-party LLM for analysis — rejected for undisclosed AI data sharing
   **Source:** Apple Developer Forums (2024)

@@ -1,28 +1,28 @@
 ---
 name: push-notification-audit
 description: >-
-  Detects push notification implementations that violate Guideline 4.5.5 — including requesting push permission at launch, using push for unsolicited marketing, and broken notification handling.
+  Detects push notification implementations that violate Guideline 4.5.4 — including requesting push permission at launch, using push for unsolicited marketing, and broken notification handling.
 ---
 
 # Skill: Push Notification Audit
-<!-- SEO: push notification UNUserNotificationCenter marketing spam promotional push permission abuse Guideline 4.5.5 iOS App Store rejection -->
+<!-- SEO: push notification UNUserNotificationCenter marketing spam promotional push permission abuse Guideline 4.5.4 iOS App Store rejection -->
 
 ## Purpose
-Detects push notification implementations that violate Guideline 4.5.5 — including requesting push permission at launch, using push for unsolicited marketing, and broken notification handling — which are common causes of rejection and post-approval removal.
+Detects push notification implementations that violate Guideline 4.5.4 — including requesting push permission at launch, using push for unsolicited marketing, and broken notification handling — which are common causes of rejection and post-approval removal.
 
 ## Apple Guideline
-- **Primary:** 4.5.5 — Design: Push Notifications
+- **Primary:** 4.5.4 — Design: Push Notifications
 - **Related:** 2.1
 - **Reference:** `references/guidelines/4-design.md`
 
 ## Real-World Rejection Cases
-- **Case:** App requested push notification permission immediately on launch before any user interaction — rejected under 4.5.5
+- **Case:** App requested push notification permission immediately on launch before any user interaction — rejected under 4.5.4
   **Source:** Apple Developer Forums (multiple reports)
   **Root cause:** Push permission must be requested in context — at the moment the user encounters a feature that would benefit from notifications. Requesting on first launch with no explanation is treated the same as any other permission abuse and is rejected.
 
 - **Case:** App sent daily promotional push notifications unrelated to any user action after users had only granted permission for transactional alerts — rejected on resubmission after user complaints triggered review
-  **Source:** Apple Developer Forums (Guideline 4.5.5 enforcement)
-  **Root cause:** Guideline 4.5.5 prohibits using push notifications for advertising, promotions, or direct marketing without explicit user opt-in for those categories — permission for one type of notification does not cover all marketing use cases
+  **Source:** Apple Developer Forums (Guideline 4.5.4 enforcement)
+  **Root cause:** Guideline 4.5.4 prohibits using push notifications for advertising, promotions, or direct marketing without explicit user opt-in for those categories — permission for one type of notification does not cover all marketing use cases
 
 - **Case:** App used push notifications to display full-screen interstitial ads — rejected
   **Source:** Apple Developer Forums
@@ -53,7 +53,7 @@ Invoke on any iOS/macOS project that uses `UNUserNotificationCenter` or remote p
 
 2. **Marketing / promotional push content patterns**
    `Grep` pattern `"sale"|"discount"|"offer"|"promo"|"% off"|"limited time"|"deal"` in push notification payload construction (near `UNMutableNotificationContent`).
-   Any match in notification body strings → 🟠 HIGH. Marketing content in push requires an explicit separate opt-in for promotional notifications per 4.5.5.
+   Any match in notification body strings → 🟠 HIGH. Marketing content in push requires an explicit separate opt-in for promotional notifications per 4.5.4.
 
 3. **Push used for ads**
    `Grep` pattern `"advertisement"|"sponsored"|"ad "|"banner"` near `UNMutableNotificationContent` in `**/*.swift`.
@@ -76,15 +76,15 @@ Collect all findings from Phase 2 and build the prioritised findings list below.
 ## Push Notification Audit — Findings
 
 ### 🔴 CRITICAL — Guaranteed rejection
-- [ ] TODO: Remove advertising content from push notification body — push may not carry ads — `NotificationScheduler.swift:33` — Guideline 4.5.5
+- [ ] TODO: Remove advertising content from push notification body — push may not carry ads — `NotificationScheduler.swift:33` — Guideline 4.5.4
 
 ### 🟠 HIGH — Very likely rejection
-- [ ] TODO: Move push permission request out of application(_:didFinishLaunchingWithOptions:) — request in context when the user first encounters a notification-driven feature — `AppDelegate.swift:22` — Guideline 4.5.5
+- [ ] TODO: Move push permission request out of application(_:didFinishLaunchingWithOptions:) — request in context when the user first encounters a notification-driven feature — `AppDelegate.swift:22` — Guideline 4.5.4
 - [ ] TODO: Add UNUserNotificationCenterDelegate to handle notification taps — broken notification handling signals incomplete implementation — `AppDelegate.swift` — Guideline 2.1
 - [ ] TODO: Add aps-environment entitlement to MyApp.entitlements — push notifications will silently fail without it
 
 ### 🟡 MEDIUM — Possible rejection
-- [ ] TODO: Add a separate opt-in step for promotional notifications — general push permission does not cover marketing use cases — Guideline 4.5.5
+- [ ] TODO: Add a separate opt-in step for promotional notifications — general push permission does not cover marketing use cases — Guideline 4.5.4
 
 ### 🟢 LOW — Best practice
 - [ ] TODO: Show a pre-permission prompt explaining the value of notifications before requesting system permission — improves opt-in rate and demonstrates context to reviewers
