@@ -135,9 +135,9 @@ Run these in your project root to check manually:
    - Check `fastlane/metadata/en-US/support_url.txt` — **runtime check**: verify URL resolves (HTTP 200); flag if file is missing
 
 3. **Determine verdict**
-   - Feature described in metadata but no matching Swift code found → 🟠 HIGH (Guideline 2.3.10)
-   - Competitor brand name in keywords → 🟠 HIGH
-   - Support URL missing or unreachable → 🟠 HIGH (Guideline 2.1)
+   - Feature described in metadata but no matching Swift code found → 🟠 HIGH (Guideline 2.3.1 — accurate marketing, all advertised features must be present)
+   - Competitor brand name in keywords → 🟠 HIGH (Guideline 2.3.7 — accurate keywords)
+   - Support URL missing or unreachable → 🟠 HIGH (Guideline 1.5 — support contact / 2.1 — accurate metadata)
    - All described features implemented, support URL reachable → 🟢 pass
 
 4. **Report**

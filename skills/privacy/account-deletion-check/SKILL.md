@@ -125,7 +125,7 @@ Run these in your project root to check manually:
    - Grep `ASAuthorizationAppleIDProvider\|revokeToken` — Sign in with Apple token revocation
 
 3. **Determine verdict**
-   - Account creation found + no deletion pattern → 🔴 CRITICAL (Guideline 5.1.1, required since June 30, 2022)
+   - Account creation found + no deletion pattern → 🔴 CRITICAL (Guideline 5.1.1(v), required since June 30, 2022)
    - Only `deactivate`/`suspend` found without `delete` → 🔴 CRITICAL (deactivation ≠ deletion)
    - Sign in with Apple used + no `revokeToken` → 🟠 HIGH
    - Deletion found + revocation present → 🟢 pass
