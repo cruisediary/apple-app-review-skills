@@ -125,3 +125,24 @@ Run these in your project root to check manually:
 
 ## Swift Anti-Pattern Reference
 `examples/swift/SubscriptionPatterns.swift`
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/*.swift`, `**/*.m`, `**/*.storyboard`, `**/*.xib`
+
+2. **Search for rejection patterns**
+   - Grep `SKPaymentQueue\|StoreKit\|Product.purchase\|SKProduct` — confirms StoreKit is in use
+   - Grep `stripe\|paypal\|braintree\|Stripe\|PayPal` — third-party payment SDKs (flag for digital goods)
+   - Grep `externalPurchase\|purchaseExternal` — explicit external payment identifiers
+   - If third-party SDK found: grep nearby strings for digital product terms (`subscription\|premium\|unlock\|credit\|coin`) to confirm digital goods context
+
+3. **Determine verdict**
+   - `stripe`/`paypal` import + digital goods strings nearby + no `StoreKit` → 🔴 CRITICAL (Guideline 3.1.1)
+   - `stripe`/`paypal` import + physical goods context only (e.g., `shipping\|delivery\|store`) → 🟢 pass (physical goods are exempt)
+   - `WKWebView` alone is not sufficient to flag — only flag if URL loads a payment form for digital goods (requires manual review)
+   - `StoreKit` used for all digital purchases → 🟢 pass
+
+4. **Report**
+   - File path + line of third-party payment SDK import or web payment URL
+   - Fix: Replace all digital content payments with StoreKit `Product.purchase()` (StoreKit 2) or `SKPaymentQueue.default().add()`

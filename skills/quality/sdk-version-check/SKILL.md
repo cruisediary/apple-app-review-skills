@@ -118,3 +118,24 @@ Collect all findings from Phase 2 and build the prioritised findings list below.
 
 ## Swift Anti-Pattern Reference
 `examples/swift/QualityPatterns.swift`
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/*.swift`, `**/*.m`, `**/project.pbxproj`, `**/Podfile`, `**/Package.swift`
+
+2. **Search for rejection patterns**
+   - Grep `UIWebView` in Swift/ObjC files — deprecated, causes ITMS-90809
+   - Grep `IPHONEOS_DEPLOYMENT_TARGET` in `project.pbxproj` — check value
+   - Grep `UIAlertView\|UIActionSheet\|UISearchDisplayController` — removed APIs
+   - Grep `@available(iOS` — count guards; compare against deprecated API usage
+
+3. **Determine verdict**
+   - `UIWebView` found → 🔴 CRITICAL (ITMS-90809 automatic rejection)
+   - `UIAlertView` / `UIActionSheet` found → 🟠 HIGH
+   - `IPHONEOS_DEPLOYMENT_TARGET` < 16 + deprecated API without `@available` guard → 🟡 MEDIUM
+   - No deprecated APIs found → 🟢 pass
+
+4. **Report**
+   - File path + line of `UIWebView` usage
+   - Fix: Replace `UIWebView` with `WKWebView`; replace `UIAlertView` with `UIAlertController`

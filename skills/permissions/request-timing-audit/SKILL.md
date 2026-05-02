@@ -101,3 +101,23 @@ Run these in your project root to check manually:
 
 ## Swift Anti-Pattern Reference
 `examples/swift/PermissionPatterns.swift`
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/AppDelegate.swift`, `**/SceneDelegate.swift`, `**/*.swift`
+
+2. **Search for rejection patterns**
+   - Grep `requestAuthorization\|requestAccess\|requestAlwaysAuthorization\|requestWhenInUseAuthorization` — all permission requests
+   - For each match: check if the containing function is `application(_:didFinishLaunchingWithOptions:)` or `scene(_:willConnectTo:session:options:)`
+   - Grep `viewDidLoad` of the initial ViewController — check if permission is requested before any UI interaction
+
+3. **Determine verdict**
+   - Permission request inside `didFinishLaunchingWithOptions` → 🟠 HIGH (Guideline 5.1.1(ii))
+   - Permission request in `viewDidLoad` of root view controller with no prior UI context → 🟠 HIGH
+   - Permission requested only after user initiates a feature that requires it → 🟢 pass
+
+4. **Report**
+   - File path + line of launch-time permission request
+   - Permission type (location, camera, contacts, etc.)
+   - Fix: Defer permission request until user taps a feature that needs it (e.g., request camera access when user taps "Take Photo")

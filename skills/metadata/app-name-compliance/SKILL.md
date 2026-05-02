@@ -106,3 +106,24 @@ Run these in your project root to check manually:
 
 ## Swift Anti-Pattern Reference
 `examples/swift/QualityPatterns.swift`
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/Info.plist`
+
+2. **Search for rejection patterns**
+   - Read `Info.plist` → get `CFBundleName` and `CFBundleDisplayName` values
+   - Check string length ≤ 30 characters
+   - Check (case-insensitive) for: `beta`, `test`, `debug`, `demo`, `trial`, `alpha`
+   - Check for trademark terms: `Apple`, `iPhone`, `iPad`, `Google`, `Facebook`, `WhatsApp`, `Instagram`
+
+3. **Determine verdict**
+   - Name length > 30 characters → 🟠 HIGH (Guideline 2.3.1)
+   - `beta`/`test`/`debug` in name → 🟠 HIGH
+   - Competitor trademark in name → 🟠 HIGH
+   - Name ≤ 30 chars, clean, no trademarks → 🟢 pass
+
+4. **Report**
+   - Exact `CFBundleName` and `CFBundleDisplayName` values with character count
+   - Fix: Shorten name to ≤ 30 chars; remove status words and trademark terms

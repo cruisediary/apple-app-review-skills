@@ -107,3 +107,23 @@ Run these in your project root to check manually:
 
 ## Swift Anti-Pattern Reference
 `examples/swift/LayoutPatterns.swift`
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/*.swift`, `**/*.m`, `**/*.storyboard`, `**/*.xib`
+
+2. **Search for rejection patterns**
+   - Grep `edgesForExtendedLayout = \[\]` — disables safe area extension
+   - Grep `UIEdgeInsets(top: 0\|UIEdgeInsets(top: 20\|UIEdgeInsets(top: 44` — hardcoded status bar height
+   - Grep `frame\.origin\.y = 0\|frame\.origin\.y = 20\|frame\.origin\.y = 44` — hardcoded Y origin
+   - Grep `safeAreaInsets\|safeAreaLayoutGuide` — correct safe area handling (absence is the problem)
+
+3. **Determine verdict**
+   - Hardcoded `top: 20` or `top: 44` insets → 🟠 HIGH (content hidden behind Dynamic Island)
+   - `edgesForExtendedLayout = []` without safe area compensation → 🟠 HIGH
+   - `safeAreaLayoutGuide` used throughout → 🟢 pass
+
+4. **Report**
+   - File path + line of hardcoded inset
+   - Fix: Replace hardcoded insets with `view.safeAreaInsets.top`; use `safeAreaLayoutGuide` anchors in Auto Layout

@@ -114,3 +114,25 @@ Run these in your project root to check manually:
 
 ## Swift Anti-Pattern Reference
 `examples/swift/LayoutPatterns.swift`
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/*.swift`, `**/*.m`, `**/Info.plist`, `**/*.storyboard`, `**/*.xib`
+
+2. **Search for rejection patterns**
+   - Grep `\.frame.*width.*375\|\.frame.*width.*390\|\.frame.*width.*414` — hardcoded iPhone widths
+   - Grep `UIScreen.main.bounds.width` used as fixed layout value (not adaptive)
+   - Grep `UIUserInterfaceIdiom.*pad\|userInterfaceIdiom == \.pad\|isPad` — iPad branch (correct)
+   - Read `Info.plist` → check `UISupportedInterfaceOrientations~ipad` key exists
+
+3. **Determine verdict**
+   - Hardcoded `375`/`390`/`414` width found → 🟠 HIGH (Guideline 2.4.1)
+   - `UISupportedInterfaceOrientations~ipad` missing from Info.plist → 🟠 HIGH
+   - No iPad idiom branches in layout code → 🟡 MEDIUM
+   - Adaptive layout used throughout → 🟢 pass
+
+4. **Report**
+   - File path + line of hardcoded width
+   - Missing Info.plist key
+   - Fix: Replace hardcoded widths with Auto Layout constraints or `view.bounds.width` (scene-based); `UIScreen.main` is deprecated since iOS 16 — do not use it as a replacement; add `UISupportedInterfaceOrientations~ipad` to Info.plist

@@ -108,3 +108,23 @@ Run these in your project root to check manually:
 
 ## Swift Anti-Pattern Reference
 `examples/swift/UGCSafetyPatterns.swift`
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/*.swift`, `**/*.m`, `**/Podfile`, `**/Package.swift`
+
+2. **Search for rejection patterns**
+   - Grep `perspectiveAPI\|contentModeration\|filterContent\|moderateText\|ContentModeration` — moderation backend
+   - Grep `profanity\|obscenity\|inappropriate\|ProfanityFilter` — client-side filter
+   - Grep `EULAAccepted\|termsAccepted\|agreedToTerms\|TermsAccepted` — terms acceptance flow
+   - Grep `userGeneratedContent\|UGCContent\|postContent` — UGC submission path
+
+3. **Determine verdict**
+   - UGC submission path found + no moderation integration → 🟠 HIGH (Guideline 1.2)
+   - Moderation present + no terms acceptance → 🟡 MEDIUM
+   - Moderation + terms acceptance present → 🟢 pass
+
+4. **Report**
+   - UGC submission code without moderation
+   - Fix: Integrate content moderation API (e.g., Perspective API, AWS Rekognition) or implement server-side filtering; add EULA acceptance before first UGC post

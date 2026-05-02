@@ -109,3 +109,23 @@ Run these in your project root to check manually:
 
 ## Swift Anti-Pattern Reference
 `examples/swift/PrivacyPatterns.swift`
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/*.swift`, `**/*.m`, `**/project.pbxproj`, `**/Info.plist`
+
+2. **Search for rejection patterns**
+   - Grep `IDFA\|advertisingIdentifier\|ASIdentifierManager` in Swift/ObjC — tracking identifier usage
+   - Grep `ATTrackingManager\|requestTrackingAuthorization` — ATT implementation
+   - Grep `AppTrackingTransparency` in `project.pbxproj` — framework linked
+   - Read `Info.plist` → check `NSUserTrackingUsageDescription` key exists and is non-empty
+
+3. **Determine verdict**
+   - `IDFA` or `advertisingIdentifier` used + no `ATTrackingManager` → 🔴 CRITICAL (Guideline 5.1.2(i))
+   - `ATTrackingManager` present + `NSUserTrackingUsageDescription` missing from Info.plist → 🔴 CRITICAL
+   - Framework linked, description present, authorization requested before access → 🟢 pass
+
+4. **Report**
+   - File path + line number of IDFA access without ATT gate
+   - Fix: Call `ATTrackingManager.requestTrackingAuthorization` before accessing IDFA; add `NSUserTrackingUsageDescription` to Info.plist

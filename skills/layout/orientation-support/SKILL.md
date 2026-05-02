@@ -99,3 +99,24 @@ Run these in your project root to check manually:
 
 ## Swift Anti-Pattern Reference
 `examples/swift/LayoutPatterns.swift`
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/Info.plist`, `**/*.swift`, `**/*.m`
+
+2. **Search for rejection patterns**
+   - Read `Info.plist` → check `UISupportedInterfaceOrientations~ipad` for both portrait and landscape values
+   - Grep `supportedInterfaceOrientations` override returning portrait-only mask
+   - Grep `shouldAutorotate` returning `false`
+   - Grep `UIInterfaceOrientationMaskPortrait\b` without `UIInterfaceOrientationMaskLandscape`
+
+3. **Determine verdict**
+   - iPad app with only portrait orientation declared → 🟠 HIGH (Guideline 2.4.1)
+   - `shouldAutorotate` returns `false` on iPad → 🟠 HIGH
+   - Both orientations supported on iPad → 🟢 pass
+
+4. **Report**
+   - `UISupportedInterfaceOrientations~ipad` value found (or missing)
+   - File path + line of portrait-only lock
+   - Fix: Add landscape orientations to `UISupportedInterfaceOrientations~ipad`; remove or conditionalise `shouldAutorotate = false`

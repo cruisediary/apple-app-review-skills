@@ -145,3 +145,23 @@ Run these in your project root to check manually:
 
 ## Swift Anti-Pattern Reference
 `examples/swift/UGCSafetyPatterns.swift`
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/*.swift`, `**/*.m`
+
+2. **Search for rejection patterns**
+   - Grep `reportUser\|reportContent\|flagContent\|reportPost\|ReportUser` — report feature
+   - Grep `blockUser\|blockAccount\|ignoreUser\|BlockUser` — block feature
+   - Grep `UITableViewCell\|UICollectionViewCell` — check context menu or swipe actions for report/block
+   - Grep `contactSupport\|supportEmail\|contactUs\|ContactSupport` — published contact info
+
+3. **Determine verdict**
+   - UGC features exist (feed, comments, profiles, chat) + no report pattern → 🔴 CRITICAL (Guideline 1.2)
+   - Report found + no block pattern → 🔴 CRITICAL
+   - Report + block + contact all present → 🟢 pass
+
+4. **Report**
+   - Evidence of UGC (feed/comment/chat code) without safety features
+   - Fix: Add report button to each user-generated content item; implement user blocking; add support contact link in Settings

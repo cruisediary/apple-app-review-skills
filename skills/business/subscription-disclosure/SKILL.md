@@ -139,3 +139,23 @@ Run these in your project root to check manually:
 
 ## Swift Anti-Pattern Reference
 `examples/swift/SubscriptionPatterns.swift`
+
+## Detection Steps
+
+1. **Find target files**
+   - Glob: `**/*.swift`, `**/*.m`, `**/*.storyboard`, `**/*.xib`, `**/*.strings`
+
+2. **Search for rejection patterns**
+   - Grep `freeTrialPeriod\|trialPeriod\|free.*[Tt]rial\|freeTrial` — trial UI elements
+   - Grep `subscriptionPrice\|priceLocale\|localizedPrice\|displayPrice` — price display
+   - Grep `autoRenew\|auto-renew\|automatically renews\|autoRenewing` — renewal disclosure text
+   - Grep `%.*off\|[Dd]iscount\|[Ss]ave.*%` — discount claims
+
+3. **Determine verdict**
+   - Trial UI found + no `autoRenew`/`automatically renews` text near it → 🟠 HIGH (Guideline 3.1.2(c))
+   - Discount percentage shown + no actual billed amount displayed → 🟠 HIGH
+   - `localizedPrice` displayed + renewal terms present → 🟢 pass
+
+4. **Report**
+   - File path + line of trial/discount UI without disclosure
+   - Fix: Add "Then [price]/[period], cancel anytime" text directly below the CTA; show actual price alongside any discount percentage
