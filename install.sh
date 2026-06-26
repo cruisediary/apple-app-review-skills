@@ -21,8 +21,8 @@ FORCE_MODE=false
 
 for arg in "$@"; do
   case "$arg" in
-    --project) PROJECT_MODE=true ;;
-    --force)   FORCE_MODE=true ;;
+    --project)        PROJECT_MODE=true ;;
+    --force|--update) FORCE_MODE=true ;;
   esac
 done
 
@@ -37,8 +37,8 @@ if [ "$PROJECT_MODE" = true ]; then
   TARGET_DIR="$(pwd)/.claude"
   MODE_LABEL="project-level ($(pwd)/.claude/)"
 else
-  TARGET_DIR="$HOME/.claude"
-  MODE_LABEL="user-level (~/.claude/)"
+  TARGET_DIR="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"
+  MODE_LABEL="user-level ($TARGET_DIR/)"
 fi
 
 echo ""
@@ -49,8 +49,13 @@ echo ""
 
 # --- Validate target ---
 if [ "$PROJECT_MODE" = false ] && [ ! -d "$TARGET_DIR" ]; then
-  echo -e "${RED}Error:${NC} ~/.claude directory not found."
-  echo "Please install Claude Code first: https://docs.anthropic.com/claude-code"
+  echo -e "${RED}Error:${NC} Claude config directory not found: $TARGET_DIR"
+  if [ -n "$CLAUDE_CONFIG_DIR" ]; then
+    echo "CLAUDE_CONFIG_DIR is set to '$CLAUDE_CONFIG_DIR' but the directory does not exist."
+  else
+    echo "Please install Claude Code first: https://docs.anthropic.com/claude-code"
+    echo "Or set CLAUDE_CONFIG_DIR to point to your Claude config directory."
+  fi
   exit 1
 fi
 
