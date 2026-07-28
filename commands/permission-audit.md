@@ -1,3 +1,1 @@
-Run !`echo "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"` to resolve the Claude config directory.
-
-Then read the file `agents/permission-audit-agent.md` inside that directory and execute all instructions in it against the current project.
+Use the `permission-audit-agent` subagent to audit the current project for permission-related App Store rejection risks.

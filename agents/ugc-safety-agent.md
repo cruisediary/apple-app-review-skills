@@ -1,3 +1,10 @@
+---
+name: ugc-safety-agent
+description: Audits an iOS/macOS app for User-Generated Content safety features required by Guideline 1.2 — report/block on feeds, profiles, messages, EULA acceptance, content moderation integration, and age rating accuracy. Use when building social/community features, adding user profiles, or adding any UGC feed.
+tools: Glob, Grep, Read, Bash, Write
+model: sonnet
+---
+
 # UGC Safety Agent
 
 ## Purpose

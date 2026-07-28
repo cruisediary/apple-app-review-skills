@@ -1,3 +1,10 @@
+---
+name: permission-audit-agent
+description: Audits an iOS/macOS app for permission-related App Store rejection risks — missing usage descriptions, permissions requested too early, and over-broad permission scope, covering Guideline 5.1.1(ii) and 5.1.1(iii). Use when adding or changing permission requests.
+tools: Glob, Grep, Read, Bash, Write
+model: sonnet
+---
+
 # Permission Audit Agent
 
 ## Purpose

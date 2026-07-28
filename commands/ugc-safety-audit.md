@@ -1,3 +1,1 @@
-Run !`echo "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"` to resolve the Claude config directory.
-
-Then read the file `agents/ugc-safety-agent.md` inside that directory and execute all instructions in it against the current project.
+Use the `ugc-safety-agent` subagent to audit the current project for UGC safety requirements under Guideline 1.2.

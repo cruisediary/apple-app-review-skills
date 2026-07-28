@@ -1,3 +1,1 @@
-Run !`echo "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"` to resolve the Claude config directory.
-
-Then read the file `agents/ipad-layout-agent.md` inside that directory and execute all instructions in it against the current project.
+Use the `ipad-layout-agent` subagent to audit the current project for iPad layout, safe area, Dynamic Type, and orientation issues.

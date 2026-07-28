@@ -1,3 +1,10 @@
+---
+name: appstore-full-audit
+description: Runs all 31 App Store review skills in a single pass against an iOS/macOS project and produces a prioritized rejection risk report. Use for a full pre-submission check, or when a change touches multiple areas (layout, permissions, privacy, UGC, quality, business/IAP, metadata).
+tools: Glob, Grep, Read, Bash, Write
+model: sonnet
+---
+
 # App Store Full Audit Agent
 
 ## Purpose
