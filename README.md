@@ -93,6 +93,42 @@ Team members automatically get the skills on `git pull` — no individual instal
 ~/.claude/agents/                   5 agents
 ```
 
+### Custom config directory
+
+If `CLAUDE_CONFIG_DIR` is set, `install.sh` and `uninstall.sh` both install to
+and remove from that path instead of `~/.claude`:
+
+```bash
+CLAUDE_CONFIG_DIR=/path/to/config bash install.sh
+```
+
+### Updating
+
+Re-running `install.sh` skips files that already exist. To pull in the latest
+version of every skill, agent, and command, use `--force` (or its alias
+`--update`):
+
+```bash
+git pull
+bash install.sh --update
+```
+
+### Uninstalling
+
+`uninstall.sh` removes everything `install.sh` puts in place, mirroring its
+flags (`--project`, and `CLAUDE_CONFIG_DIR` support):
+
+```bash
+bash uninstall.sh              # user-level
+bash uninstall.sh --project    # project-level (.claude/ in the current repo)
+bash uninstall.sh --dry-run    # preview what would be deleted
+```
+
+It derives the file list from the skills, agents, and commands currently in
+this checkout, so if you've since pulled a version of the repo with fewer
+skills than what you originally installed, those older files won't be cleaned
+up automatically.
+
 ---
 
 ## Usage
@@ -149,7 +185,7 @@ Runs all 31 skills and produces a prioritized rejection risk report.
 ```
 /ipad-layout-audit        # iPad layout, safe area, Dynamic Type, orientation
 /permission-audit         # NSUsageDescription completeness + request timing
-/ugc-safety-agent         # Report/block for user content and profiles
+/ugc-safety-audit         # Report/block for user content and profiles
 /privacy-audit            # Privacy policy, account deletion, ATT, manifest
 ```
 

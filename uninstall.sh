@@ -88,6 +88,10 @@ for category in layout permissions ugc privacy quality business metadata; do
     fi
   fi
 done
+# Remove the parent skills/ dir if now empty
+if [ "$DRY_RUN" = false ] && [ -d "$TARGET_DIR/skills" ] && [ -z "$(ls -A "$TARGET_DIR/skills")" ]; then
+  rmdir "$TARGET_DIR/skills"
+fi
 
 echo ""
 echo "Removing agents..."
@@ -95,6 +99,10 @@ for agent_file in "$REPO_DIR/agents"/*.md; do
   [ -f "$agent_file" ] || continue
   remove_path "$TARGET_DIR/agents/$(basename "$agent_file")" "agents/$(basename "$agent_file")"
 done
+# Remove the agents/ dir if now empty
+if [ "$DRY_RUN" = false ] && [ -d "$TARGET_DIR/agents" ] && [ -z "$(ls -A "$TARGET_DIR/agents")" ]; then
+  rmdir "$TARGET_DIR/agents"
+fi
 
 echo ""
 echo "Removing commands..."
@@ -102,6 +110,10 @@ for cmd_file in "$REPO_DIR/commands"/*.md; do
   [ -f "$cmd_file" ] || continue
   remove_path "$TARGET_DIR/commands/$(basename "$cmd_file")" "commands/$(basename "$cmd_file")"
 done
+# Remove the commands/ dir if now empty
+if [ "$DRY_RUN" = false ] && [ -d "$TARGET_DIR/commands" ] && [ -z "$(ls -A "$TARGET_DIR/commands")" ]; then
+  rmdir "$TARGET_DIR/commands"
+fi
 
 echo ""
 echo "======================================="

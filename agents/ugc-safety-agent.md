@@ -78,7 +78,7 @@ Saved: docs/appstore-audit/YYYY-MM-DD-ugc-safety.md
 ## Usage
 
 ```
-/ugc-safety-agent
+/ugc-safety-audit
 ```
 
 Run when: Building social or community features, adding user profiles, or adding any UGC feed.

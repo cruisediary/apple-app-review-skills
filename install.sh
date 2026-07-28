@@ -98,7 +98,8 @@ for category in layout permissions ugc privacy quality business metadata; do
       skill_name="$(basename "$skill_dir")"
       dst_skill="$dst_dir/$skill_name"
       if [ "$FORCE_MODE" = true ] || [ ! -d "$dst_skill" ]; then
-        cp -r "$skill_dir" "$dst_dir/"
+        rm -rf "$dst_skill"
+        cp -r "$skill_dir" "$dst_skill"
         echo -e "  ${GREEN}ok${NC}    $skill_name/"
         SKILLS_INSTALLED=$((SKILLS_INSTALLED + 1))
       else
@@ -142,7 +143,7 @@ echo "Usage in Claude Code:"
 echo "  /appstore-full-audit        — full pre-submission audit"
 echo "  /ipad-layout-audit          — iPad layout check"
 echo "  /permission-audit           — permissions check"
-echo "  /ugc-safety-agent           — UGC report/block check"
+echo "  /ugc-safety-audit           — UGC report/block check"
 echo "  /privacy-audit              — privacy compliance check"
 echo ""
 echo "Enable natural language triggers (e.g. 'check my app before App Store submission'):"

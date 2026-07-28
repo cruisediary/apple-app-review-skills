@@ -1,5 +1,3 @@
-Determine the Claude config directory:
-- If the `CLAUDE_CONFIG_DIR` environment variable is set, use that path
-- Otherwise use `~/.claude`
+Run !`echo "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"` to resolve the Claude config directory.
 
 Then read the file `agents/ipad-layout-agent.md` inside that directory and execute all instructions in it against the current project.
