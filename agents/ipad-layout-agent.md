@@ -1,3 +1,10 @@
+---
+name: ipad-layout-agent
+description: Audits an iOS/macOS project for iPad-specific layout, safe area, Dynamic Type, and orientation issues that cause App Store rejection under Guidelines 2.1, 2.4.1, and HIG. Use when adding or reviewing iPad layout, split views, safe area handling, or orientation support.
+tools: Glob, Grep, Read, Bash, Write
+model: sonnet
+---
+
 # iPad Layout Agent
 
 ## Purpose

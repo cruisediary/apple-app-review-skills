@@ -21,8 +21,8 @@ FORCE_MODE=false
 
 for arg in "$@"; do
   case "$arg" in
-    --project) PROJECT_MODE=true ;;
-    --force)   FORCE_MODE=true ;;
+    --project)        PROJECT_MODE=true ;;
+    --force|--update) FORCE_MODE=true ;;
   esac
 done
 
@@ -37,8 +37,8 @@ if [ "$PROJECT_MODE" = true ]; then
   TARGET_DIR="$(pwd)/.claude"
   MODE_LABEL="project-level ($(pwd)/.claude/)"
 else
-  TARGET_DIR="$HOME/.claude"
-  MODE_LABEL="user-level (~/.claude/)"
+  TARGET_DIR="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"
+  MODE_LABEL="user-level ($TARGET_DIR/)"
 fi
 
 echo ""
@@ -49,8 +49,13 @@ echo ""
 
 # --- Validate target ---
 if [ "$PROJECT_MODE" = false ] && [ ! -d "$TARGET_DIR" ]; then
-  echo -e "${RED}Error:${NC} ~/.claude directory not found."
-  echo "Please install Claude Code first: https://docs.anthropic.com/claude-code"
+  echo -e "${RED}Error:${NC} Claude config directory not found: $TARGET_DIR"
+  if [ -n "$CLAUDE_CONFIG_DIR" ]; then
+    echo "CLAUDE_CONFIG_DIR is set to '$CLAUDE_CONFIG_DIR' but the directory does not exist."
+  else
+    echo "Please install Claude Code first: https://docs.anthropic.com/claude-code"
+    echo "Or set CLAUDE_CONFIG_DIR to point to your Claude config directory."
+  fi
   exit 1
 fi
 
@@ -93,7 +98,8 @@ for category in layout permissions ugc privacy quality business metadata; do
       skill_name="$(basename "$skill_dir")"
       dst_skill="$dst_dir/$skill_name"
       if [ "$FORCE_MODE" = true ] || [ ! -d "$dst_skill" ]; then
-        cp -r "$skill_dir" "$dst_dir/"
+        rm -rf "$dst_skill"
+        cp -r "$skill_dir" "$dst_skill"
         echo -e "  ${GREEN}ok${NC}    $skill_name/"
         SKILLS_INSTALLED=$((SKILLS_INSTALLED + 1))
       else
@@ -137,7 +143,7 @@ echo "Usage in Claude Code:"
 echo "  /appstore-full-audit        — full pre-submission audit"
 echo "  /ipad-layout-audit          — iPad layout check"
 echo "  /permission-audit           — permissions check"
-echo "  /ugc-safety-agent           — UGC report/block check"
+echo "  /ugc-safety-audit           — UGC report/block check"
 echo "  /privacy-audit              — privacy compliance check"
 echo ""
 echo "Enable natural language triggers (e.g. 'check my app before App Store submission'):"

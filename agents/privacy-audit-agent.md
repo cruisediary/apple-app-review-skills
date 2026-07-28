@@ -1,3 +1,10 @@
+---
+name: privacy-audit-agent
+description: Audits an iOS/macOS app for privacy-related App Store rejection risks — missing privacy policy, absent PrivacyInfo.xcprivacy manifest, ATT missing before tracking, no account deletion option, and excessive data collection, covering Guidelines 5.1.1 and 5.1.2. Use when handling user data, adding analytics, or adding account features.
+tools: Glob, Grep, Read, Bash, Write
+model: sonnet
+---
+
 # Privacy Audit Agent
 
 ## Purpose
